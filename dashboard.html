@@ -2404,7 +2404,7 @@ async function requirePartnerSession(){
   ){
 
     window.location.href =
-      "partner-login.html";
+      "login.html";
 
     return false;
   }
@@ -2454,7 +2454,7 @@ async function requirePartnerSession(){
     await supabaseClient.auth.signOut();
 
     window.location.href =
-      "partner-login.html";
+      "login.html";
 
     return false;
   }
@@ -5111,7 +5111,7 @@ document
 
 
         window.location.href =
-          "partner-login.html";
+          "login.html";
       }
 
     }
@@ -5131,7 +5131,7 @@ supabaseClient.auth.onAuthStateChange(
     ){
 
       window.location.href =
-        "partner-login.html";
+        "login.html";
     }
 
   }
