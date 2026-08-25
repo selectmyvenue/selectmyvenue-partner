@@ -344,6 +344,27 @@
       cursor:not-allowed;
     }
 
+    .account-btn{
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid rgba(22,199,183,.20);
+      background:rgba(22,199,183,.06);
+      color:#bfeee9;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .account-btn:hover{
+      border-color:rgba(22,199,183,.42);
+      background:rgba(22,199,183,.10);
+      color:#fff;
+    }
+
+    .account-btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
     /* =========================================================
        CONTENT
     ========================================================= */
@@ -1434,6 +1455,97 @@
     }
 
     /* =========================================================
+       ACCOUNT / CHANGE PASSWORD
+    ========================================================= */
+
+    .password-modal{
+      width:min(470px,100%);
+    }
+
+    .password-form{
+      display:grid;
+      gap:14px;
+    }
+
+    .password-field{
+      display:grid;
+      gap:7px;
+    }
+
+    .password-field label{
+      color:var(--muted);
+      font-size:9px;
+      font-weight:850;
+      text-transform:uppercase;
+      letter-spacing:.65px;
+    }
+
+    .password-field input{
+      width:100%;
+      height:44px;
+      padding:0 12px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      outline:none;
+      background:rgba(255,255,255,.025);
+      color:#eef6f6;
+      font:inherit;
+    }
+
+    .password-field input:focus{
+      border-color:rgba(22,199,183,.48);
+      box-shadow:0 0 0 3px rgba(22,199,183,.07);
+    }
+
+    .password-help{
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.45;
+    }
+
+    .password-message{
+      min-height:18px;
+      font-size:10px;
+      line-height:1.45;
+    }
+
+    .password-message.error{color:#ff9f9f}
+    .password-message.success{color:#63e6be}
+
+    .password-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:9px;
+      margin-top:4px;
+    }
+
+    .password-cancel,
+    .password-save{
+      min-height:38px;
+      padding:8px 13px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      cursor:pointer;
+      font-weight:800;
+    }
+
+    .password-cancel{
+      background:var(--panel2);
+      color:#d7e4e5;
+    }
+
+    .password-save{
+      border-color:rgba(22,199,183,.25);
+      background:linear-gradient(135deg,var(--teal),var(--teal2));
+      color:#031315;
+    }
+
+    .password-save:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    /* =========================================================
        RESPONSIVE
     ========================================================= */
 
@@ -1462,6 +1574,20 @@
 
       .partner-name{
         display:none;
+      }
+
+      .account-btn{
+        width:38px;
+        height:38px;
+        padding:0;
+        font-size:0;
+        display:grid;
+        place-items:center;
+      }
+
+      .account-btn::before{
+        content:"🔐";
+        font-size:15px;
       }
 
       .content{
@@ -1618,6 +1744,15 @@
       >
         Venue Partner
       </div>
+
+      <button
+        id="changePasswordButton"
+        class="account-btn"
+        type="button"
+        title="Change Password"
+      >
+        Change Password
+      </button>
 
       <button
         id="logoutButton"
@@ -1939,6 +2074,72 @@
 
   </div>
 
+</div>
+
+
+<!-- =========================================================
+     CHANGE PASSWORD MODAL
+========================================================= -->
+
+<div
+  id="changePasswordModal"
+  class="modal-backdrop"
+  aria-hidden="true"
+>
+  <div class="detail-modal password-modal" role="dialog" aria-modal="true" aria-labelledby="changePasswordTitle">
+
+    <div class="detail-head">
+      <div>
+        <div id="changePasswordTitle" class="detail-title">Change Password</div>
+        <div class="detail-subtitle">Re-enter your current password before creating a new one.</div>
+      </div>
+
+      <button
+        id="changePasswordClose"
+        class="detail-close"
+        type="button"
+        aria-label="Close"
+      >×</button>
+    </div>
+
+    <div class="detail-body">
+      <form id="changePasswordForm" class="password-form" autocomplete="off">
+
+        <div class="password-field">
+          <label for="currentPassword">Current Password</label>
+          <input id="currentPassword" type="password" autocomplete="current-password" required>
+        </div>
+
+        <div class="password-field">
+          <label for="newAccountPassword">New Password</label>
+          <input id="newAccountPassword" type="password" autocomplete="new-password" required>
+        </div>
+
+        <div class="password-field">
+          <label for="confirmAccountPassword">Confirm New Password</label>
+          <input id="confirmAccountPassword" type="password" autocomplete="new-password" required>
+        </div>
+
+        <div class="password-help">
+          Use at least 8 characters with an uppercase letter, lowercase letter, and number.
+        </div>
+
+        <div
+          id="changePasswordMessage"
+          class="password-message"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        <div class="password-actions">
+          <button id="changePasswordCancel" class="password-cancel" type="button">Cancel</button>
+          <button id="changePasswordSave" class="password-save" type="submit">Update Password</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
 </div>
 
 
@@ -5075,6 +5276,201 @@ document
     "click",
     refresh
   );
+
+
+/* ============================================================
+   CHANGE PASSWORD
+============================================================ */
+
+const changePasswordModal =
+  document.getElementById("changePasswordModal");
+
+const changePasswordForm =
+  document.getElementById("changePasswordForm");
+
+const changePasswordMessage =
+  document.getElementById("changePasswordMessage");
+
+function showChangePasswordMessage(message,type=""){
+  changePasswordMessage.textContent = message;
+  changePasswordMessage.className = "password-message " + type;
+}
+
+function openChangePasswordModal(){
+  changePasswordForm.reset();
+  showChangePasswordMessage("");
+  changePasswordModal.classList.add("show");
+  changePasswordModal.setAttribute("aria-hidden","false");
+
+  setTimeout(
+    () => document.getElementById("currentPassword").focus(),
+    50
+  );
+}
+
+function closeChangePasswordModal(){
+  changePasswordModal.classList.remove("show");
+  changePasswordModal.setAttribute("aria-hidden","true");
+  changePasswordForm.reset();
+  showChangePasswordMessage("");
+}
+
+function strongPartnerPassword(value){
+  return (
+    String(value || "").length >= 8 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value)
+  );
+}
+
+document
+  .getElementById("changePasswordButton")
+  .addEventListener("click",openChangePasswordModal);
+
+document
+  .getElementById("changePasswordClose")
+  .addEventListener("click",closeChangePasswordModal);
+
+document
+  .getElementById("changePasswordCancel")
+  .addEventListener("click",closeChangePasswordModal);
+
+changePasswordModal.addEventListener(
+  "click",
+  event => {
+    if(event.target === changePasswordModal){
+      closeChangePasswordModal();
+    }
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  event => {
+    if(
+      event.key === "Escape" &&
+      changePasswordModal.classList.contains("show")
+    ){
+      closeChangePasswordModal();
+    }
+  }
+);
+
+changePasswordForm.addEventListener(
+  "submit",
+  async event => {
+    event.preventDefault();
+
+    const currentPassword =
+      document.getElementById("currentPassword").value;
+
+    const newPassword =
+      document.getElementById("newAccountPassword").value;
+
+    const confirmPassword =
+      document.getElementById("confirmAccountPassword").value;
+
+    const saveButton =
+      document.getElementById("changePasswordSave");
+
+    if(!currentPassword || !newPassword || !confirmPassword){
+      showChangePasswordMessage("Please complete all password fields.","error");
+      return;
+    }
+
+    if(newPassword === currentPassword){
+      showChangePasswordMessage("Your new password must be different from your current password.","error");
+      return;
+    }
+
+    if(!strongPartnerPassword(newPassword)){
+      showChangePasswordMessage(
+        "New password must be at least 8 characters and include uppercase, lowercase, and a number.",
+        "error"
+      );
+      return;
+    }
+
+    if(newPassword !== confirmPassword){
+      showChangePasswordMessage("The new passwords do not match.","error");
+      return;
+    }
+
+    const authEmail =
+      currentUser?.email ||
+      partnerProfile?.email;
+
+    if(!authEmail){
+      showChangePasswordMessage("Unable to verify your account email. Please sign out and sign in again.","error");
+      return;
+    }
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Updating...";
+    showChangePasswordMessage("");
+
+    try{
+
+      /* Re-authenticate first so possession of an unlocked browser
+         session alone is not enough to change the password. */
+      const {
+        error:reauthError
+      } =
+        await supabaseClient.auth.signInWithPassword({
+          email:authEmail,
+          password:currentPassword
+        });
+
+      if(reauthError){
+        showChangePasswordMessage("Current password is incorrect.","error");
+        return;
+      }
+
+      const {
+        error:updateError
+      } =
+        await supabaseClient.auth.updateUser({
+          password:newPassword
+        });
+
+      if(updateError){
+        console.error("Password update error:",updateError);
+        showChangePasswordMessage(
+          updateError.message || "Unable to update your password.",
+          "error"
+        );
+        return;
+      }
+
+      showChangePasswordMessage(
+        "Password changed successfully. You will be signed out now.",
+        "success"
+      );
+
+      await new Promise(resolve => setTimeout(resolve,650));
+
+      sessionStorage.removeItem("smv_partner_profile");
+      await supabaseClient.auth.signOut({scope:"local"});
+
+      window.location.replace("login.html?changed=1");
+
+    }catch(error){
+
+      console.error("Change password error:",error);
+
+      showChangePasswordMessage(
+        "Unable to update your password. Please try again.",
+        "error"
+      );
+
+    }finally{
+
+      saveButton.disabled = false;
+      saveButton.textContent = "Update Password";
+    }
+  }
+);
 
 
 /* ============================================================
