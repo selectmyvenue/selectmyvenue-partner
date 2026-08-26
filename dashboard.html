@@ -1642,6 +1642,145 @@
         max-height:calc(70vh - 62px);
       }
     }
+    /* =========================================================
+       STAGE 8 — PARTNER PLAN & PERFORMANCE ANALYTICS
+    ========================================================= */
+
+    .venue-plan-summary{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:5px;
+      text-align:right;
+    }
+
+    .partner-plan-name{
+      color:#f2fbfa;
+      font-size:15px;
+      font-weight:900;
+    }
+
+    .partner-plan-status,
+    .partner-plan-expiry{
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .performance-panel{
+      margin-bottom:18px;
+      padding:20px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:
+        radial-gradient(circle at 92% 12%,rgba(22,199,183,.12),transparent 34%),
+        linear-gradient(145deg,rgba(16,39,43,.98),rgba(8,24,28,.98));
+      box-shadow:0 18px 46px rgba(0,0,0,.2);
+    }
+
+    .performance-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:15px;
+    }
+
+    .performance-head h2{
+      margin:4px 0 4px;
+      color:#eefafa;
+      font-size:18px;
+    }
+
+    .performance-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    .analytics-state{
+      display:inline-flex;
+      min-height:27px;
+      align-items:center;
+      padding:5px 9px;
+      border:1px solid rgba(22,199,183,.2);
+      border-radius:999px;
+      background:rgba(22,199,183,.07);
+      color:#8ce9df;
+      font-size:8px;
+      font-weight:850;
+      white-space:nowrap;
+    }
+
+    .performance-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:9px;
+    }
+
+    .performance-item{
+      min-width:0;
+      padding:13px;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:12px;
+      background:rgba(255,255,255,.025);
+    }
+
+    .performance-item span,
+    .performance-item small{
+      display:block;
+    }
+
+    .performance-item span{
+      color:var(--muted);
+      font-size:8px;
+      font-weight:850;
+      letter-spacing:.6px;
+    }
+
+    .performance-item strong{
+      display:block;
+      margin:6px 0 3px;
+      color:#f3fbfa;
+      font-size:21px;
+    }
+
+    .performance-item small{
+      color:#71898b;
+      font-size:8px;
+    }
+
+    .partner-plan-features{
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin-top:13px;
+      padding-top:13px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .plan-feature-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:6px 9px;
+      border:1px solid rgba(22,199,183,.13);
+      border-radius:999px;
+      background:rgba(22,199,183,.045);
+      color:#bde4e0;
+      font-weight:700;
+    }
+
+    @media(max-width:850px){
+      .performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+
+    @media(max-width:600px){
+      .venue-plan-summary{align-items:flex-start;text-align:left;width:100%}
+      .performance-head{flex-direction:column}
+      .performance-grid{grid-template-columns:1fr}
+    }
   </style>
 </head>
 
@@ -1833,8 +1972,13 @@
 
       </div>
 
-      <div class="partner-badge">
-        ✓ Partner Active
+      <div class="venue-plan-summary">
+        <div class="partner-badge">
+          ✓ Partner Active
+        </div>
+        <div id="partnerPlanName" class="partner-plan-name">Launch Trial</div>
+        <div id="partnerPlanStatus" class="partner-plan-status">Plan setup pending</div>
+        <div id="partnerPlanExpiry" class="partner-plan-expiry"></div>
       </div>
 
     </section>
@@ -1853,6 +1997,28 @@
       <div class="stat-card" data-filter="site_visit" tabindex="0" role="button"><div class="stat-label">Site Visits</div><div id="statSiteVisit" class="stat-value">0</div><div class="stat-note">Visit stage</div></div>
       <div class="stat-card" data-filter="negotiation" tabindex="0" role="button"><div class="stat-label">Negotiation</div><div id="statNegotiation" class="stat-value">0</div><div class="stat-note">Booking discussion</div></div>
       <div class="stat-card success-card" data-filter="booked" tabindex="0" role="button"><div class="stat-label">Booked</div><div id="statBooked" class="stat-value">0</div><div class="stat-note">Confirmed bookings</div></div>
+    </section>
+
+    <section class="performance-panel" aria-labelledby="performanceTitle">
+      <div class="performance-head">
+        <div>
+          <span class="eyebrow">STAGE 8 · PERFORMANCE</span>
+          <h2 id="performanceTitle">Your Lead Analytics</h2>
+          <p>Response and conversion performance for enquiries assigned to this venue.</p>
+        </div>
+        <span id="analyticsState" class="analytics-state">Live from Partner CRM</span>
+      </div>
+
+      <div class="performance-grid">
+        <div class="performance-item"><span>TOTAL ENQUIRIES</span><strong id="analyticsTotal">0</strong><small>All assigned leads</small></div>
+        <div class="performance-item"><span>RESPONSE RATE</span><strong id="analyticsResponseRate">0%</strong><small>Leads responded to</small></div>
+        <div class="performance-item"><span>AVG. RESPONSE</span><strong id="analyticsResponseTime">—</strong><small>First contact time</small></div>
+        <div class="performance-item"><span>CONVERSION</span><strong id="analyticsConversionRate">0%</strong><small>Bookings from leads</small></div>
+      </div>
+
+      <div id="partnerPlanFeatures" class="partner-plan-features">
+        Your plan features will appear here.
+      </div>
     </section>
 
 
@@ -2197,6 +2363,7 @@ let partnerProfile = null;
 let venue = null;
 let assignments = [];
 let notifications = [];
+let partnerPlanDetails = null;
 let toastTimer = null;
 let activeDashboardFilter = "all";
 
@@ -2768,6 +2935,98 @@ async function loadVenue(){
       .filter(Boolean)
       .join(", ") ||
       "Partner venue";
+
+  await loadPartnerPlanDetails();
+}
+
+
+/* ============================================================
+   STAGE 8 — PARTNER PLAN
+============================================================ */
+
+const DEFAULT_PLAN_FEATURES = {
+  launch_trial:["Venue listing","Basic visibility","Enquiries as available","Partner dashboard"],
+  partner:["Venue listing","Assigned enquiries","Partner CRM","Lead tracking","CRM notifications"],
+  growth:["Priority visibility","Advanced analytics","Enhanced promotion","Better lead opportunities"],
+  premium:["Featured listing","Premium placement","Advanced CRM","Advanced analytics","Priority matching"]
+};
+
+function planLabel(value){
+  const labels={
+    launch_trial:"Launch Trial",
+    partner:"Partner",
+    growth:"Growth",
+    premium:"Premium"
+  };
+  return labels[String(value||"")] || "Launch Trial";
+}
+
+function formatPlanDate(value){
+  if(!value)return "";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return "";
+  return new Intl.DateTimeFormat("en-IN",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  }).format(date);
+}
+
+async function loadPartnerPlanDetails(){
+  const code=String(venue?.partner_plan||"launch_trial");
+  partnerPlanDetails={
+    plan_code:code,
+    plan_name:planLabel(code),
+    features:DEFAULT_PLAN_FEATURES[code]||DEFAULT_PLAN_FEATURES.launch_trial
+  };
+
+  const result=await supabaseClient
+    .from("venue_plans")
+    .select("plan_code,plan_name,description,features")
+    .eq("plan_code",code)
+    .maybeSingle();
+
+  if(!result.error&&result.data){
+    partnerPlanDetails=result.data;
+  }else if(result.error&&!/does not exist|schema cache|relation/i.test(String(result.error.message||""))){
+    console.warn("Unable to load partner plan:",result.error.message);
+  }
+
+  renderPartnerPlan();
+}
+
+function renderPartnerPlan(){
+  const code=String(venue?.partner_plan||partnerPlanDetails?.plan_code||"launch_trial");
+  const status=String(venue?.plan_status||"");
+  const name=document.getElementById("partnerPlanName");
+  const statusElement=document.getElementById("partnerPlanStatus");
+  const expiry=document.getElementById("partnerPlanExpiry");
+  const featuresElement=document.getElementById("partnerPlanFeatures");
+
+  if(name){
+    name.textContent=partnerPlanDetails?.plan_name||planLabel(code);
+  }
+
+  if(statusElement){
+    statusElement.textContent=status
+      ? `${status.replace(/_/g," ").replace(/\b\w/g,char=>char.toUpperCase())} plan`
+      : "Plan setup pending";
+  }
+
+  if(expiry){
+    const formatted=formatPlanDate(venue?.plan_expires_at);
+    expiry.textContent=formatted?`Valid until ${formatted}`:"";
+  }
+
+  if(featuresElement){
+    const features=Array.isArray(partnerPlanDetails?.features)
+      ? partnerPlanDetails.features
+      : (DEFAULT_PLAN_FEATURES[code]||DEFAULT_PLAN_FEATURES.launch_trial);
+
+    featuresElement.innerHTML=features
+      .map(feature=>`<span class="plan-feature-pill">✓ ${escapeHtml(feature)}</span>`)
+      .join("");
+  }
 }
 
 
@@ -2811,6 +3070,7 @@ async function loadAssignments(){
 
     renderStats();
     renderAssignments();
+    await loadPartnerAnalytics();
     return;
   }
 
@@ -2922,6 +3182,8 @@ async function loadAssignments(){
   renderStats();
 
   renderAssignments();
+
+  await loadPartnerAnalytics();
 }
 
 
@@ -2943,6 +3205,69 @@ function renderStats(){
   document.getElementById("statNegotiation").textContent=countStatus("negotiation");
   document.getElementById("statBooked").textContent=countStatus("booked");
   updateDashboardFilterUI();
+}
+
+function localPartnerAnalytics(){
+  const total=assignments.length;
+  const respondedStatuses=new Set([
+    "contacted","detailed_shared","follow_up","site_visit",
+    "negotiation","booked","converted"
+  ]);
+  const responded=assignments.filter(item=>
+    item.first_contacted_at||respondedStatuses.has(String(item.assignment_status||"").toLowerCase())
+  ).length;
+  const bookings=assignments.filter(item=>
+    ["booked","converted"].includes(String(item.assignment_status||"").toLowerCase())
+  ).length;
+  const responseTimes=assignments.map(item=>{
+    const assigned=new Date(item.assigned_at).getTime();
+    const contacted=new Date(item.first_contacted_at).getTime();
+    return Number.isFinite(assigned)&&Number.isFinite(contacted)&&contacted>=assigned
+      ?(contacted-assigned)/60000
+      :null;
+  }).filter(value=>value!==null);
+
+  return{
+    total,
+    responded,
+    bookings,
+    response_rate:total?(responded/total)*100:0,
+    conversion_rate:total?(bookings/total)*100:0,
+    avg_response_minutes:responseTimes.length
+      ?responseTimes.reduce((sum,value)=>sum+value,0)/responseTimes.length
+      :0
+  };
+}
+
+function formatAnalyticsMinutes(value){
+  const minutes=Number(value);
+  if(!Number.isFinite(minutes)||minutes<=0)return "—";
+  if(minutes<60)return `${Math.round(minutes)} min`;
+  if(minutes<1440)return `${(minutes/60).toFixed(minutes<600?1:0)} hr`;
+  return `${(minutes/1440).toFixed(1)} day`;
+}
+
+async function loadPartnerAnalytics(){
+  let analytics=localPartnerAnalytics();
+  const result=await supabaseClient.rpc("smv_partner_analytics");
+
+  if(!result.error&&result.data){
+    analytics=result.data;
+  }else if(result.error&&!/does not exist|schema cache|function/i.test(String(result.error.message||""))){
+    console.warn("Unable to load partner analytics RPC:",result.error.message);
+  }
+
+  const values={
+    analyticsTotal:analytics.total||0,
+    analyticsResponseRate:`${Number(analytics.response_rate||0).toFixed(1)}%`,
+    analyticsResponseTime:formatAnalyticsMinutes(analytics.avg_response_minutes),
+    analyticsConversionRate:`${Number(analytics.conversion_rate||0).toFixed(1)}%`
+  };
+
+  Object.entries(values).forEach(([id,value])=>{
+    const element=document.getElementById(id);
+    if(element)element.textContent=value;
+  });
 }
 
 function assignmentMatchesDashboardFilter(a){
@@ -4604,6 +4929,7 @@ async function savePartnerFollowUp(assignmentId){
 
     renderStats();
     renderAssignments();
+    await loadPartnerAnalytics();
     await loadNotifications();
     showToast(activityResult.success ? "Follow-up saved successfully." : "Follow-up saved, but activity history could not be recorded.",!activityResult.success);
     await openEnquiryDetails(assignmentId);
@@ -4662,6 +4988,7 @@ async function clearPartnerFollowUp(assignmentId){
 
     renderStats();
     renderAssignments();
+    await loadPartnerAnalytics();
     await loadNotifications();
     showToast("Follow-up cleared.");
     await openEnquiryDetails(assignmentId);
@@ -4807,6 +5134,8 @@ async function updateStatus(
     renderStats();
 
     renderAssignments();
+
+    await loadPartnerAnalytics();
 
 
     /*
