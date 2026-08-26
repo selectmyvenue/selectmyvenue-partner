@@ -2775,6 +2775,12 @@ async function loadVenue(){
    LOAD ASSIGNMENTS
 ============================================================ */
 
+const PARTNER_ASSIGNMENT_FIELDS =
+  "id,venue_id,enquiry_id,assignment_status,assigned_at,updated_at,follow_up_at,partner_note,lost_reason,converted_at,site_visit_at,first_viewed_at,last_activity_at,first_contacted_at";
+
+const PARTNER_ENQUIRY_FIELDS =
+  "id,customer_name,mobile,email,location,occasion,guests,budget_per_person,food_preference,event_date,requirements,source,created_at";
+
 async function loadAssignments(){
 
   if(
@@ -2787,33 +2793,63 @@ async function loadAssignments(){
   }
 
 
-  const {
-    data,
-    error
-  } =
+  const rpcResult =
+    await supabaseClient.rpc(
+      "smv_partner_get_assignments"
+    );
+
+
+  if(!rpcResult.error){
+
+    assignments =
+      (rpcResult.data || [])
+        .map(row => ({
+          ...(row.assignment || {}),
+          customer_enquiry:
+            row.customer_enquiry || null
+        }));
+
+    renderStats();
+    renderAssignments();
+    return;
+  }
+
+
+  /*
+    Deployment-safe fallback for the short window before the
+    database RPC migration is applied. It deliberately requests
+    only partner-safe columns and never downloads internal notes,
+    CRM ownership or staff workflow fields.
+  */
+
+  if(!/function|schema cache|does not exist/i.test(
+    String(rpcResult.error.message || "")
+  )){
+    throw rpcResult.error;
+  }
+
+
+  console.warn(
+    "Partner assignment RPC is not available yet; using restricted field fallback."
+  );
+
+
+  const assignmentResult =
     await supabaseClient
       .from("venue_enquiry_assignments")
-      .select("*")
-      .eq(
-        "venue_id",
-        partnerProfile.venue_id
-      )
-      .order(
-        "assigned_at",
-        {
-          ascending:false
-        }
-      );
+      .select(PARTNER_ASSIGNMENT_FIELDS)
+      .eq("venue_id",partnerProfile.venue_id)
+      .order("assigned_at",{ascending:false});
 
 
-  if(error){
-    throw error;
+  if(assignmentResult.error){
+    throw assignmentResult.error;
   }
 
 
   assignments =
-    Array.isArray(data)
-      ? data
+    Array.isArray(assignmentResult.data)
+      ? assignmentResult.data
       : [];
 
 
@@ -2842,7 +2878,7 @@ async function loadAssignments(){
     } =
       await supabaseClient
         .from("customer_enquiries")
-        .select("*")
+        .select(PARTNER_ENQUIRY_FIELDS)
         .in(
           "id",
           ids
@@ -3300,6 +3336,13 @@ async function logPartnerActivity({
     }
 
 
+    await syncAssignmentActivitySummary(
+      assignmentId,
+      activityType,
+      data?.created_at || new Date().toISOString()
+    );
+
+
     return {
       success:true,
       data
@@ -3317,6 +3360,72 @@ async function logPartnerActivity({
       error
     };
   }
+}
+
+
+async function syncAssignmentActivitySummary(
+  assignmentId,
+  activityType,
+  activityAt = new Date().toISOString()
+){
+
+  const assignment =
+    findAssignment(assignmentId);
+
+  if(!assignment || !partnerProfile?.venue_id){
+    return;
+  }
+
+  const normalizedType =
+    String(activityType || "").toLowerCase();
+
+  const update = {
+    last_activity_at:activityAt
+  };
+
+  if(
+    normalizedType === "viewed" &&
+    !assignment.first_viewed_at
+  ){
+    update.first_viewed_at = activityAt;
+  }
+
+  if(
+    [
+      "contacted",
+      "whatsapp_shared",
+      "call_connected",
+      "details_shared",
+      "detailed_shared"
+    ].includes(normalizedType) &&
+    !assignment.first_contacted_at
+  ){
+    update.first_contacted_at = activityAt;
+  }
+
+  const {data,error} =
+    await supabaseClient
+      .from("venue_enquiry_assignments")
+      .update(update)
+      .eq("id",assignmentId)
+      .eq("venue_id",partnerProfile.venue_id)
+      .select(PARTNER_ASSIGNMENT_FIELDS)
+      .single();
+
+  if(error){
+    console.warn(
+      "Assignment activity summary could not be updated:",
+      error
+    );
+    return;
+  }
+
+  assignments =
+    assignments.map(item =>
+      String(item.id) === String(assignmentId)
+        ? {...item,...data,customer_enquiry:item.customer_enquiry}
+        : item
+    );
 }
 
 
@@ -3751,18 +3860,15 @@ async function savePartnerContactLog(assignmentId){
   }
 
   try{
-    const {error} = await supabaseClient
-      .from("venue_activity_log")
-      .insert({
-        assignment_id: assignment.id,
-        venue_id: assignment.venue_id,
-        user_id: currentUser?.id || null,
-        activity_type: activityType,
-        description: note
+    const activityResult =
+      await logPartnerActivity({
+        assignmentId:assignment.id,
+        activityType,
+        description:note
       });
 
-    if(error){
-      throw error;
+    if(!activityResult.success){
+      throw activityResult.error || new Error("Unable to save contact note.");
     }
 
     if(noteElement){
@@ -4256,6 +4362,13 @@ async function openEnquiryDetails(
 
   }else{
 
+    if(!assignment.first_viewed_at){
+      await syncAssignmentActivitySummary(
+        assignment.id,
+        "viewed"
+      );
+    }
+
     await loadActivityHistory(
       assignment
     );
@@ -4461,7 +4574,8 @@ async function savePartnerFollowUp(assignmentId){
   const payload = {
     follow_up_at: followDate.toISOString(),
     partner_note: note || null,
-    assignment_status: "follow_up"
+    assignment_status: "follow_up",
+    last_activity_at: new Date().toISOString()
   };
 
   if(button){ button.disabled=true; button.textContent="Saving..."; }
@@ -4472,7 +4586,7 @@ async function savePartnerFollowUp(assignmentId){
       .update(payload)
       .eq("id",assignmentId)
       .eq("venue_id",partnerProfile.venue_id)
-      .select("*")
+      .select(PARTNER_ASSIGNMENT_FIELDS)
       .single();
     if(error) throw error;
 
@@ -4512,7 +4626,8 @@ async function clearPartnerFollowUp(assignmentId){
     const currentStatus = String(assignment.assignment_status || "assigned").toLowerCase();
     const clearPayload = {
       follow_up_at: null,
-      partner_note: null
+      partner_note: null,
+      last_activity_at: new Date().toISOString()
     };
 
     // A cleared follow-up must not leave the enquiry in a false
@@ -4527,7 +4642,7 @@ async function clearPartnerFollowUp(assignmentId){
       .update(clearPayload)
       .eq("id",assignmentId)
       .eq("venue_id",partnerProfile.venue_id)
-      .select("*")
+      .select(PARTNER_ASSIGNMENT_FIELDS)
       .single();
     if(error) throw error;
 
@@ -4615,23 +4730,50 @@ async function updateStatus(
 
   try{
 
+    const activityAt =
+      new Date().toISOString();
+
+    const updatePayload =
+      ["booked","lost","cancelled","converted","closed"].includes(normalizedNewStatus)
+        ? {
+            assignment_status:normalizedNewStatus,
+            follow_up_at:null,
+            partner_note:null,
+            last_activity_at:activityAt
+          }
+        : {
+            assignment_status:normalizedNewStatus,
+            last_activity_at:activityAt
+          };
+
+    if(
+      normalizedNewStatus === "contacted" &&
+      !assignment.first_contacted_at
+    ){
+      updatePayload.first_contacted_at = activityAt;
+    }
+
+    if(
+      normalizedNewStatus === "site_visit" &&
+      !assignment.site_visit_at
+    ){
+      updatePayload.site_visit_at = activityAt;
+    }
+
+    if(
+      ["booked","converted"].includes(normalizedNewStatus) &&
+      !assignment.converted_at
+    ){
+      updatePayload.converted_at = activityAt;
+    }
+
     const {
       data,
       error
     } =
       await supabaseClient
         .from("venue_enquiry_assignments")
-        .update(
-          ["booked","lost","cancelled","converted","closed"].includes(normalizedNewStatus)
-            ? {
-                assignment_status: normalizedNewStatus,
-                follow_up_at: null,
-                partner_note: null
-              }
-            : {
-                assignment_status: normalizedNewStatus
-              }
-        )
+        .update(updatePayload)
         .eq(
           "id",
           assignmentId
@@ -4640,7 +4782,7 @@ async function updateStatus(
           "venue_id",
           partnerProfile.venue_id
         )
-        .select("*")
+        .select(PARTNER_ASSIGNMENT_FIELDS)
         .single();
 
 
