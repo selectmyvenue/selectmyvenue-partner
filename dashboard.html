@@ -2988,7 +2988,12 @@ async function loadPartnerPlanDetails(){
     .maybeSingle();
 
   if(!result.error&&result.data){
-    partnerPlanDetails=result.data;
+    const canonicalFeatures=DEFAULT_PLAN_FEATURES[code]||[];
+    const databaseFeatures=Array.isArray(result.data.features)?result.data.features:[];
+    partnerPlanDetails={
+      ...result.data,
+      features:[...new Set([...canonicalFeatures,...databaseFeatures])]
+    };
   }else if(result.error&&!/does not exist|schema cache|relation/i.test(String(result.error.message||""))){
     console.warn("Unable to load partner plan:",result.error.message);
   }
