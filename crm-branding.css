@@ -1,0 +1,6 @@
+/* Full Select My Venue logo on every partner CRM screen. */
+.topbar{padding-top:0;padding-bottom:0;min-height:70px}
+.top-logo{display:block;width:250px;height:70px;flex:0 0 250px;object-fit:fill;border-radius:0;background:none;padding:0;margin:0}
+.login-logo,.logo{object-fit:fill;border-radius:0}
+@media(max-width:900px){.topbar{flex-wrap:wrap;gap:8px;padding-left:12px;padding-right:12px}.top-logo{width:205px;height:64px;flex-basis:205px}}
+@media(max-width:600px){.top-logo{width:175px;height:58px;flex-basis:175px}.top-brand{gap:8px;max-width:100%}}
