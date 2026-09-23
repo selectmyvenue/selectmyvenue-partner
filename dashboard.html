@@ -1783,7 +1783,7 @@
       .performance-grid{grid-template-columns:1fr}
     }
   </style>
-<link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260923-mobile-master-1"><script defer src="partner-mobile.js?v=20260923-mobile-master-1"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260923-lead-first-1"></head>
+<link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260923-mobile-master-1"><script defer src="partner-mobile.js?v=20260923-mobile-master-1"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260923-lead-first-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260923-analytics-modal-1"><script defer src="partner-analytics-modal.js?v=20260923-analytics-modal-1"></script></head>
 
 <body>
 
@@ -1995,14 +1995,15 @@
       <div class="stat-card success-card" data-filter="booked" tabindex="0" role="button"><div class="stat-label">Booked</div><div id="statBooked" class="stat-value">0</div><div class="stat-note">Confirmed bookings</div></div>
     </section>
 
-    <section class="performance-panel" aria-labelledby="performanceTitle">
+    <div id="partnerAnalyticsModal" class="analytics-modal-backdrop" aria-hidden="true">
+<section class="performance-panel" aria-labelledby="performanceTitle">
       <div class="performance-head">
         <div>
           <span class="eyebrow">GROWTH &amp; INSIGHTS · PERFORMANCE</span>
           <h2 id="performanceTitle">Your Lead Analytics</h2>
           <p>Response and conversion performance for enquiries assigned to this venue.</p>
         </div>
-        <span id="analyticsState" class="analytics-state">Live from Partner CRM</span>
+        <div class="analytics-head-actions"><span id="analyticsState" class="analytics-state">Live from Partner CRM</span><button id="partnerAnalyticsClose" class="analytics-close-btn" type="button" aria-label="Close analytics">×</button></div>
       </div>
 
       <div class="performance-grid">
@@ -2016,6 +2017,8 @@
         Your plan features will appear here.
       </div>
     </section>
+
+</div>
 
 
     <!-- =====================================================
@@ -2038,13 +2041,16 @@
 
         </div>
 
-        <button
-          id="refreshButton"
-          class="refresh-btn"
-          type="button"
-        >
-          ↻ Refresh
-        </button>
+        <div class="partner-lead-head-actions">
+          <button id="partnerAnalyticsButton" class="refresh-btn" type="button">▦ Analytics</button>
+          <button
+            id="refreshButton"
+            class="refresh-btn"
+            type="button"
+          >
+            ↻ Refresh
+          </button>
+        </div>
 
       </div>
 
