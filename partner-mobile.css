@@ -1,0 +1,520 @@
+/* =========================================================
+   SELECT MY VENUE — PARTNER CRM MOBILE WORKSPACE
+   Master-CRM-style phone UX. Desktop remains unchanged.
+   ========================================================= */
+.partner-mobile-nav,.partner-mobile-more{display:none}
+
+@media(max-width:760px){
+  html.partner-phone-crm,html.partner-phone-crm body{
+    min-height:100%;
+    overflow-x:hidden!important;
+  }
+  html.partner-phone-crm body{
+    padding-bottom:78px!important;
+    background:#f3f8f6!important;
+    color:#173f36!important;
+  }
+
+  /* Compact Master-style header */
+  html.partner-phone-crm .topbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:900!important;
+    min-height:34px!important;
+    padding:0 8px 4px!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:4px 8px!important;
+    align-items:center!important;
+    background:linear-gradient(115deg,#063d34,#075d4d)!important;
+    border-bottom:1px solid rgba(255,255,255,.1)!important;
+    box-shadow:0 7px 20px rgba(7,61,52,.12)!important;
+  }
+  html.partner-phone-crm .top-brand{
+    min-width:0!important;
+    gap:0!important;
+    align-self:auto!important;
+  }
+  html.partner-phone-crm .top-logo{
+    display:block!important;
+    width:175px!important;
+    max-width:175px!important;
+    height:auto!important;
+    flex:0 0 175px!important;
+    aspect-ratio:488/83!important;
+    object-fit:contain!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  html.partner-phone-crm .top-brand>div:not(.top-logo){display:none!important}
+  html.partner-phone-crm .top-title,
+  html.partner-phone-crm .top-subtitle,
+  html.partner-phone-crm .partner-name,
+  html.partner-phone-crm .account-btn,
+  html.partner-phone-crm .logout-btn{display:none!important}
+  html.partner-phone-crm .top-right{
+    gap:5px!important;
+  }
+  html.partner-phone-crm .notification-btn{
+    width:34px!important;
+    height:34px!important;
+    border-radius:9px!important;
+    background:rgba(255,255,255,.09)!important;
+    border-color:rgba(255,255,255,.16)!important;
+    color:#fff!important;
+  }
+  html.partner-phone-crm .notification-panel{
+    position:fixed!important;
+    top:42px!important;
+    left:8px!important;
+    right:8px!important;
+    width:auto!important;
+    max-height:calc(100dvh - 125px)!important;
+    border-radius:14px!important;
+  }
+
+  /* Main content: operational leads first */
+  html.partner-phone-crm .content{
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:8px 8px 18px!important;
+    display:flex!important;
+    flex-direction:column!important;
+  }
+  html.partner-phone-crm .welcome{order:1!important}
+  html.partner-phone-crm .venue-card{order:2!important}
+  html.partner-phone-crm .stats{order:3!important}
+  html.partner-phone-crm .section{order:4!important}
+  html.partner-phone-crm .performance-panel{order:5!important}
+
+  html.partner-phone-crm .welcome{
+    margin:0 0 7px!important;
+    padding:10px 11px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:13px!important;
+    background:linear-gradient(135deg,#fff,#f5fbf8)!important;
+    align-items:center!important;
+  }
+  html.partner-phone-crm .welcome .eyebrow{
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    color:#71857f!important;
+    font-size:8px!important;
+  }
+  html.partner-phone-crm .welcome h1{
+    margin:3px 0 0!important;
+    color:#0b594a!important;
+    font-size:22px!important;
+    line-height:1.05!important;
+  }
+  html.partner-phone-crm .welcome-text{display:none!important}
+
+  /* Venue identity compact */
+  html.partner-phone-crm .venue-card{
+    margin:0 0 7px!important;
+    padding:10px 11px!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:8px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:13px!important;
+    background:#fff!important;
+    color:#173f36!important;
+  }
+  html.partner-phone-crm .venue-info{
+    min-width:0!important;
+    gap:8px!important;
+  }
+  html.partner-phone-crm .venue-icon{
+    width:38px!important;
+    height:38px!important;
+    flex-basis:38px!important;
+    border-radius:10px!important;
+    background:#eaf5f1!important;
+    border-color:#d4e7e0!important;
+    font-size:18px!important;
+  }
+  html.partner-phone-crm .venue-label{font-size:7.5px!important;color:#7a8b85!important}
+  html.partner-phone-crm .venue-name{font-size:14px!important;color:#0b493d!important}
+  html.partner-phone-crm .venue-location{font-size:9.5px!important;color:#71857f!important}
+  html.partner-phone-crm .venue-plan-summary{
+    width:auto!important;
+    min-width:0!important;
+    align-items:flex-end!important;
+    text-align:right!important;
+  }
+  html.partner-phone-crm .partner-badge{
+    padding:4px 7px!important;
+    font-size:8px!important;
+    color:#08705b!important;
+    background:#eaf5f1!important;
+    border-color:#cfe2db!important;
+  }
+  html.partner-phone-crm .partner-plan-name{font-size:9px!important;color:#375d53!important}
+  html.partner-phone-crm .partner-plan-status,
+  html.partner-phone-crm .partner-plan-expiry{display:none!important}
+
+  /* Stats horizontal like master queues */
+  html.partner-phone-crm .stats{
+    display:flex!important;
+    gap:7px!important;
+    margin:0 0 8px!important;
+    overflow-x:auto!important;
+    scrollbar-width:none!important;
+    scroll-snap-type:x proximity!important;
+  }
+  html.partner-phone-crm .stats::-webkit-scrollbar{display:none!important}
+  html.partner-phone-crm .stat-card{
+    flex:0 0 126px!important;
+    min-height:65px!important;
+    padding:9px 10px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:12px!important;
+    background:#fff!important;
+    box-shadow:0 4px 12px rgba(17,76,63,.04)!important;
+    scroll-snap-align:start!important;
+  }
+  html.partner-phone-crm .stat-label{
+    color:#71857f!important;
+    font-size:8px!important;
+  }
+  html.partner-phone-crm .stat-value{
+    margin-top:4px!important;
+    color:#075b4b!important;
+    font-size:22px!important;
+  }
+  html.partner-phone-crm .stat-note{display:none!important}
+
+  /* Leads section */
+  html.partner-phone-crm .section{
+    overflow:visible!important;
+    margin:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+  }
+  html.partner-phone-crm .section-head{
+    margin:0 0 7px!important;
+    padding:10px 11px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:13px!important;
+    background:#fff!important;
+  }
+  html.partner-phone-crm .section-title{
+    color:#0b594a!important;
+    font-size:15px!important;
+  }
+  html.partner-phone-crm .section-subtitle{
+    color:#71857f!important;
+    font-size:9.5px!important;
+  }
+  html.partner-phone-crm .section-head #refreshButton{display:none!important}
+
+  /* Search stays visible; advanced filters via bottom nav */
+  html.partner-phone-crm .lead-workspace{
+    margin:0 0 7px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:13px!important;
+    background:#fff!important;
+    overflow:visible!important;
+  }
+  html.partner-phone-crm .workspace-top{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+    padding:8px!important;
+  }
+  html.partner-phone-crm .workspace-search{
+    grid-column:1/-1!important;
+  }
+  html.partner-phone-crm .workspace-input{
+    height:42px!important;
+    min-height:42px!important;
+    border-radius:10px!important;
+    background:#fff!important;
+    color:#173f36!important;
+    border-color:#cfdfd9!important;
+    font-size:12px!important;
+  }
+  html.partner-phone-crm .workspace-select,
+  html.partner-phone-crm .workspace-reset{
+    display:none!important;
+    width:100%!important;
+    min-height:40px!important;
+    border-radius:9px!important;
+    background:#fff!important;
+    color:#173f36!important;
+    border-color:#d5e3de!important;
+    font-size:11px!important;
+  }
+  html.partner-phone-crm body.partner-phone-filters-open .workspace-select,
+  html.partner-phone-crm body.partner-phone-filters-open .workspace-reset{
+    display:block!important;
+  }
+  html.partner-phone-crm .workspace-meta{
+    padding:0 9px 8px!important;
+    color:#71857f!important;
+    font-size:9px!important;
+  }
+  html.partner-phone-crm .workspace-filter-note{display:none!important}
+  html.partner-phone-crm .filter-summary{
+    margin:0 0 7px!important;
+    color:#4d6c63!important;
+    background:#eef7f3!important;
+    border-color:#d4e5df!important;
+  }
+
+  /* Partner table => compact lead cards */
+  html.partner-phone-crm .table-wrap{
+    width:100%!important;
+    overflow:visible!important;
+  }
+  html.partner-phone-crm table,
+  html.partner-phone-crm #enquiriesBody{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  html.partner-phone-crm table thead{display:none!important}
+  html.partner-phone-crm #enquiriesBody tr{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:0 10px!important;
+    width:100%!important;
+    margin:0 0 7px!important;
+    padding:10px 11px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:13px!important;
+    background:#fff!important;
+    box-shadow:0 4px 13px rgba(17,76,63,.04)!important;
+  }
+  html.partner-phone-crm #enquiriesBody tr>td{
+    display:none!important;
+    width:auto!important;
+    min-width:0!important;
+    padding:6px 0!important;
+    border:0!important;
+    border-bottom:1px solid #edf3f0!important;
+    background:transparent!important;
+    color:#173f36!important;
+    white-space:normal!important;
+    font-size:12px!important;
+    line-height:1.3!important;
+  }
+  html.partner-phone-crm #enquiriesBody tr>td::before{
+    content:attr(data-partner-label);
+    display:block!important;
+    margin-bottom:3px!important;
+    color:#7b8c86!important;
+    font-size:7.8px!important;
+    font-weight:850!important;
+    letter-spacing:.07em!important;
+    text-transform:uppercase!important;
+  }
+  /* Customer, phone, event, assignment, details, status are enough for rapid work. */
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(1),
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(2),
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(4),
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(8),
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(9),
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(10){
+    display:block!important;
+  }
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(1){
+    grid-column:1/-1!important;
+    min-height:42px!important;
+    padding-top:1px!important;
+  }
+  html.partner-phone-crm .customer-name{
+    color:#0b493d!important;
+    font-size:15px!important;
+    font-weight:900!important;
+  }
+  html.partner-phone-crm .secondary{color:#74867f!important;font-size:9.5px!important}
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(8){
+    grid-column:1/-1!important;
+  }
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(9),
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(10){
+    border-bottom:0!important;
+    padding-top:8px!important;
+  }
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(9)::before,
+  html.partner-phone-crm #enquiriesBody tr>td:nth-child(10)::before{display:none!important}
+  html.partner-phone-crm .detail-btn,
+  html.partner-phone-crm .status-select{
+    width:100%!important;
+    min-width:0!important;
+    min-height:42px!important;
+    height:42px!important;
+    border-radius:9px!important;
+    font-size:11px!important;
+    font-weight:850!important;
+  }
+  html.partner-phone-crm .detail-btn{
+    background:#08705b!important;
+    color:#fff!important;
+    border-color:#08705b!important;
+  }
+  html.partner-phone-crm .status-select{
+    background:#fff!important;
+    color:#173f36!important;
+    border-color:#cfe0da!important;
+  }
+  html.partner-phone-crm #enquiriesBody td[colspan]{
+    display:block!important;
+    grid-column:1/-1!important;
+    border:0!important;
+  }
+
+  /* Details modal full-screen like Master CRM */
+  html.partner-phone-crm .modal-backdrop.show{
+    position:fixed!important;
+    inset:0!important;
+    z-index:32000!important;
+    padding:0!important;
+    align-items:stretch!important;
+    background:#f3f8f6!important;
+  }
+  html.partner-phone-crm .detail-modal{
+    width:100vw!important;
+    max-width:none!important;
+    height:100dvh!important;
+    max-height:none!important;
+    border:0!important;
+    border-radius:0!important;
+    background:#fff!important;
+    color:#173f36!important;
+  }
+  html.partner-phone-crm .detail-head{
+    position:sticky!important;
+    top:0!important;
+    z-index:10!important;
+    padding:12px!important;
+    background:linear-gradient(115deg,#063d34,#075d4d)!important;
+    border-bottom:0!important;
+  }
+  html.partner-phone-crm .detail-title{color:#fff!important}
+  html.partner-phone-crm .detail-subtitle{color:#cce8de!important}
+  html.partner-phone-crm .detail-close{
+    background:rgba(255,255,255,.1)!important;
+    color:#fff!important;
+    border-color:rgba(255,255,255,.2)!important;
+  }
+  html.partner-phone-crm .detail-body{
+    padding:12px!important;
+    background:#f5f9f7!important;
+  }
+  html.partner-phone-crm .detail-grid{grid-template-columns:1fr!important}
+  html.partner-phone-crm .detail-item{
+    background:#fff!important;
+    border-color:#dce8e3!important;
+    color:#173f36!important;
+  }
+  html.partner-phone-crm .detail-footer{
+    position:sticky!important;
+    bottom:0!important;
+    padding:9px 12px calc(9px + env(safe-area-inset-bottom,0px))!important;
+    background:#fff!important;
+    border-top:1px solid #dde8e3!important;
+  }
+
+  /* Performance remains available after leads, but compact */
+  html.partner-phone-crm .performance-panel{
+    margin:8px 0 0!important;
+    padding:10px!important;
+    border:1px solid #d9e6e1!important;
+    border-radius:13px!important;
+    background:#fff!important;
+    color:#173f36!important;
+  }
+  html.partner-phone-crm .performance-head{
+    margin-bottom:8px!important;
+  }
+  html.partner-phone-crm .performance-head h2{color:#0b594a!important;font-size:14px!important}
+  html.partner-phone-crm .performance-head p{display:none!important}
+  html.partner-phone-crm .performance-grid{
+    display:flex!important;
+    gap:6px!important;
+    overflow-x:auto!important;
+    scrollbar-width:none!important;
+  }
+  html.partner-phone-crm .performance-item{
+    flex:0 0 120px!important;
+    min-height:60px!important;
+    padding:8px!important;
+    background:#f8fbfa!important;
+    border-color:#e0ebe7!important;
+  }
+  html.partner-phone-crm .performance-item span{color:#71857f!important}
+  html.partner-phone-crm .performance-item strong{color:#0b594a!important;font-size:18px!important}
+  html.partner-phone-crm .performance-item small{display:none!important}
+  html.partner-phone-crm .partner-plan-features{display:none!important}
+
+  /* Bottom navigation */
+  .partner-mobile-nav{
+    position:fixed!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;
+    z-index:30000!important;
+    height:60px!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:4px!important;
+    padding:5px!important;
+    border:1px solid #dfe7e3!important;
+    border-radius:16px!important;
+    background:rgba(255,255,255,.98)!important;
+    box-shadow:0 10px 30px rgba(16,64,54,.16)!important;
+    backdrop-filter:blur(12px)!important;
+  }
+  .partner-mobile-nav button{
+    min-width:0!important;
+    border:0!important;
+    border-radius:10px!important;
+    background:transparent!important;
+    color:#6b7d77!important;
+    font:inherit!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:2px!important;
+    padding:0!important;
+  }
+  .partner-mobile-nav button span{font-size:16px!important;line-height:1!important}
+  .partner-mobile-nav button b{font-size:9px!important;font-weight:850!important}
+  .partner-mobile-nav button.active{background:#eaf5f1!important;color:#08705b!important}
+
+  .partner-mobile-more{
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;
+    z-index:31000!important;
+    display:grid!important;
+    gap:4px!important;
+    padding:9px!important;
+    border:1px solid #dfe7e3!important;
+    border-radius:15px!important;
+    background:#fff!important;
+    box-shadow:0 18px 44px rgba(16,64,54,.2)!important;
+  }
+  .partner-mobile-more[hidden]{display:none!important}
+  .partner-mobile-more button{
+    min-height:44px!important;
+    border:0!important;
+    border-radius:9px!important;
+    background:#fff!important;
+    color:#294d43!important;
+    font:inherit!important;
+    font-size:11.5px!important;
+    font-weight:800!important;
+    text-align:left!important;
+    padding:0 12px!important;
+  }
+  .partner-mobile-more button.danger{color:#b42318!important}
+}
