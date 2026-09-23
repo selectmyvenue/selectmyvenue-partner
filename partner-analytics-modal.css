@@ -1,0 +1,108 @@
+/* Partner CRM analytics overlay: always accessible, never buried under long lead lists. */
+.analytics-modal-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:40000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(3,18,20,.72);
+  backdrop-filter:blur(8px);
+}
+.analytics-modal-backdrop[aria-hidden="false"]{display:flex}
+.analytics-modal-backdrop .performance-panel{
+  width:min(860px,94vw)!important;
+  max-height:88vh!important;
+  overflow:auto!important;
+  margin:0!important;
+  padding:18px!important;
+  border-radius:18px!important;
+  box-shadow:0 28px 70px rgba(0,0,0,.35)!important;
+}
+.analytics-head-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.analytics-close-btn{
+  width:34px;
+  height:34px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-size:22px;
+  line-height:1;
+  cursor:pointer;
+}
+.partner-lead-head-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+#partnerAnalyticsButton{
+  border-color:rgba(22,199,183,.28)!important;
+  background:rgba(22,199,183,.08)!important;
+  color:#bfeee9!important;
+}
+
+@media(max-width:760px){
+  .analytics-modal-backdrop{
+    padding:0!important;
+    align-items:stretch!important;
+    background:#f3f8f6!important;
+  }
+  .analytics-modal-backdrop .performance-panel{
+    width:100vw!important;
+    max-width:none!important;
+    height:100dvh!important;
+    max-height:none!important;
+    border:0!important;
+    border-radius:0!important;
+    padding:12px!important;
+    background:#f3f8f6!important;
+    color:#173f36!important;
+  }
+  .analytics-modal-backdrop .performance-head{
+    position:sticky!important;
+    top:-12px!important;
+    z-index:10!important;
+    margin:0 -12px 12px!important;
+    padding:12px!important;
+    background:linear-gradient(115deg,#063d34,#075d4d)!important;
+  }
+  .analytics-modal-backdrop .performance-head h2{color:#fff!important}
+  .analytics-modal-backdrop .performance-head p{color:#cce8de!important;display:block!important}
+  .analytics-modal-backdrop .analytics-state{color:#b9eadc!important}
+  .analytics-modal-backdrop .performance-grid{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:8px!important;
+  }
+  .analytics-modal-backdrop .performance-item{
+    min-height:86px!important;
+    padding:12px!important;
+    background:#fff!important;
+    border:1px solid #dce8e3!important;
+  }
+  .analytics-modal-backdrop .performance-item span{color:#71857f!important}
+  .analytics-modal-backdrop .performance-item strong{color:#0b594a!important;font-size:22px!important}
+  .analytics-modal-backdrop .performance-item small{display:block!important;color:#71857f!important}
+  .analytics-modal-backdrop .partner-plan-features{
+    display:flex!important;
+    color:#44665d!important;
+    border-top-color:#dce8e3!important;
+  }
+  .analytics-modal-backdrop .plan-feature-pill{
+    background:#fff!important;
+    color:#176352!important;
+    border-color:#d5e5df!important;
+  }
+  .partner-lead-head-actions{gap:6px!important}
+  #partnerAnalyticsButton{
+    min-height:34px!important;
+    padding:0 9px!important;
+    font-size:9.5px!important;
+  }
+}
