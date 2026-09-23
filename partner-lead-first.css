@@ -1,0 +1,215 @@
+/* =========================================================
+   PARTNER CRM — LEAD-FIRST DESKTOP WORKSPACE
+   Keep all functionality; prioritise assigned enquiries.
+   ========================================================= */
+@media(min-width:761px){
+  .content{
+    display:flex!important;
+    flex-direction:column!important;
+    width:min(1500px,calc(100% - 34px))!important;
+    padding-top:12px!important;
+    padding-bottom:36px!important;
+  }
+
+  .welcome{order:1!important;margin-bottom:8px!important}
+  .venue-card{order:2!important}
+  .stats{order:3!important}
+  .section{order:4!important}
+  .performance-panel{order:5!important}
+
+  /* The top intro is useful but should not consume working space. */
+  .welcome{
+    min-height:0!important;
+    padding:0 2px!important;
+  }
+  .welcome .eyebrow{display:none!important}
+  .welcome h1{
+    margin:0!important;
+    font-size:20px!important;
+    line-height:1.1!important;
+  }
+  .welcome-text{
+    margin:3px 0 0!important;
+    font-size:10px!important;
+    line-height:1.25!important;
+  }
+
+  /* Compact venue identity */
+  .venue-card{
+    min-height:0!important;
+    margin-bottom:8px!important;
+    padding:10px 14px!important;
+    border-radius:13px!important;
+  }
+  .venue-info{gap:10px!important}
+  .venue-icon{
+    width:38px!important;
+    height:38px!important;
+    flex:0 0 38px!important;
+    border-radius:10px!important;
+    font-size:18px!important;
+  }
+  .venue-label{font-size:8px!important}
+  .venue-name{
+    margin-top:2px!important;
+    font-size:15px!important;
+  }
+  .venue-location{
+    margin-top:2px!important;
+    font-size:9px!important;
+  }
+  .venue-plan-summary{gap:2px!important}
+  .partner-badge{
+    padding:4px 8px!important;
+    font-size:8px!important;
+  }
+  .partner-plan-name{font-size:11px!important}
+  .partner-plan-status,.partner-plan-expiry{font-size:7.5px!important}
+
+  /* All 8 operational KPI cards in one compact row */
+  .stats{
+    display:grid!important;
+    grid-template-columns:repeat(8,minmax(0,1fr))!important;
+    gap:7px!important;
+    margin-bottom:9px!important;
+  }
+  .stat-card{
+    min-width:0!important;
+    min-height:58px!important;
+    padding:9px 10px!important;
+    border-radius:11px!important;
+  }
+  .stat-label{
+    font-size:7.5px!important;
+    line-height:1.15!important;
+    letter-spacing:.035em!important;
+    white-space:normal!important;
+  }
+  .stat-value{
+    margin-top:4px!important;
+    font-size:20px!important;
+    line-height:1!important;
+  }
+  .stat-note{display:none!important}
+
+  /* Assigned enquiries becomes the primary large work area */
+  .section{
+    width:100%!important;
+    margin:0!important;
+    border-radius:13px!important;
+    overflow:hidden!important;
+  }
+  .section-head{
+    padding:11px 14px!important;
+    gap:10px!important;
+  }
+  .section-title{font-size:14px!important}
+  .section-subtitle{
+    margin-top:2px!important;
+    font-size:9px!important;
+  }
+  .refresh-btn{
+    padding:7px 10px!important;
+    font-size:9.5px!important;
+  }
+
+  .lead-workspace{
+    margin:0!important;
+  }
+  .workspace-top{
+    gap:7px!important;
+    padding:9px 12px 7px!important;
+  }
+  .workspace-input,
+  .workspace-select,
+  .workspace-reset{
+    min-height:34px!important;
+    height:34px!important;
+    font-size:9px!important;
+  }
+  .workspace-meta{
+    padding:0 12px 8px!important;
+    font-size:8px!important;
+  }
+  .filter-summary{
+    margin:0 12px 7px!important;
+    padding:7px 9px!important;
+    font-size:9px!important;
+  }
+  th{
+    padding:9px 10px!important;
+    font-size:8px!important;
+  }
+  td{
+    padding:10px!important;
+    font-size:10px!important;
+  }
+  .customer-name{font-size:11px!important}
+  .secondary{font-size:8px!important}
+  .status{
+    padding:4px 7px!important;
+    font-size:8px!important;
+  }
+  .detail-btn{
+    padding:6px 8px!important;
+    font-size:8.5px!important;
+  }
+  .status-select{
+    min-width:128px!important;
+    padding:6px 7px!important;
+    font-size:8.5px!important;
+  }
+
+  /* Analytics is still fully available, but after operational leads. */
+  .performance-panel{
+    width:100%!important;
+    margin:10px 0 0!important;
+    padding:13px 14px!important;
+    border-radius:13px!important;
+  }
+  .performance-head{
+    margin-bottom:9px!important;
+    align-items:center!important;
+  }
+  .performance-head .eyebrow{display:none!important}
+  .performance-head h2{
+    margin:0!important;
+    font-size:14px!important;
+  }
+  .performance-head p{
+    margin-top:2px!important;
+    font-size:8.5px!important;
+  }
+  .analytics-state{
+    min-height:22px!important;
+    padding:3px 7px!important;
+    font-size:7px!important;
+  }
+  .performance-grid{gap:7px!important}
+  .performance-item{
+    min-height:54px!important;
+    padding:8px 10px!important;
+  }
+  .performance-item span{font-size:7px!important}
+  .performance-item strong{
+    margin:3px 0 1px!important;
+    font-size:16px!important;
+  }
+  .performance-item small{font-size:7px!important}
+  .partner-plan-features{
+    gap:5px!important;
+    margin-top:8px!important;
+    padding-top:8px!important;
+    font-size:7.5px!important;
+  }
+  .plan-feature-pill{padding:4px 6px!important}
+}
+
+@media(min-width:761px) and (max-width:1180px){
+  .stats{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+  .stat-card{
+    min-height:52px!important;
+  }
+}
