@@ -4078,7 +4078,7 @@ function formatActivityType(type){
 ============================================================ */
 
 function focusFollowUpScheduler(){
-  const dateInput=document.getElementById("followUpDateTime");
+  const dateInput=document.getElementById("partnerFollowUpAt");
   if(!dateInput){showToast("Open View Details to schedule the follow-up.",true);return}
   const box=dateInput.closest(".followup-box");
   if(box) box.scrollIntoView({behavior:"smooth",block:"center"});
