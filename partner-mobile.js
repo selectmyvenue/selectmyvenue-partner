@@ -25,7 +25,7 @@
       nav.innerHTML=
         '<button type="button" data-partner-nav="leads" class="active"><span>☷</span><b>Leads</b></button>'+
         '<button type="button" data-partner-nav="filters"><span>⌕</span><b>Filters</b></button>'+
-        '<button type="button" data-partner-nav="alerts"><span>🔔</span><b>Alerts</b></button>'+
+        '<button type="button" data-partner-nav="analytics"><span>▦</span><b>Analytics</b></button>'+
         '<button type="button" data-partner-nav="more"><span>•••</span><b>More</b></button>';
       document.body.appendChild(nav);
     }
@@ -37,6 +37,7 @@
       menu.hidden=true;
       menu.innerHTML=
         '<button type="button" data-partner-more="venue">🏨 Your venue</button>'+
+        '<button type="button" data-partner-more="alerts">🔔 Notifications</button>'+
         '<button type="button" data-partner-more="refresh">↻ Refresh leads</button>'+
         '<button type="button" data-partner-more="password">🔐 Change password</button>'+
         '<button type="button" data-partner-more="logout" class="danger">↪ Logout</button>';
@@ -63,9 +64,9 @@
           closeMore();
           setTimeout(()=>document.querySelector('.lead-workspace')?.scrollIntoView({behavior:'smooth',block:'start'}),30);
         }
-        if(a==='alerts'){
+        if(a==='analytics'){
           closeMore();
-          byId('notificationButton')?.click();
+          window.smvOpenPartnerAnalytics?.();
         }
         if(a==='more'){
           const m=byId('partnerMobileMore');if(m)m.hidden=!m.hidden;
@@ -76,6 +77,7 @@
       if(m){
         const a=m.dataset.partnerMore;
         if(a==='venue')document.querySelector('.venue-card')?.scrollIntoView({behavior:'smooth',block:'start'});
+        if(a==='alerts')byId('notificationButton')?.click();
         if(a==='refresh')byId('refreshButton')?.click();
         if(a==='password')byId('changePasswordButton')?.click();
         if(a==='logout')byId('logoutButton')?.click();
