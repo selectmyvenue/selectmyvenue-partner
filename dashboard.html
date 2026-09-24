@@ -2999,7 +2999,9 @@ async function loadPartnerPlanDetails(){
 
 function renderPartnerPlan(){
   const code=String(venue?.partner_plan||partnerPlanDetails?.plan_code||"launch_trial");
-  const status=String(venue?.plan_status||"");
+  const expiresAt=venue?.plan_expires_at ? new Date(venue.plan_expires_at) : null;
+  const expiredByDate=code==="launch_trial"&&expiresAt&&!Number.isNaN(expiresAt.getTime())&&expiresAt.getTime()<=Date.now();
+  const status=expiredByDate ? "expired" : String(venue?.plan_status||"");
   const name=document.getElementById("partnerPlanName");
   const statusElement=document.getElementById("partnerPlanStatus");
   const expiry=document.getElementById("partnerPlanExpiry");
