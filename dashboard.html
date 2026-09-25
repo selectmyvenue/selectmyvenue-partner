@@ -1974,7 +1974,6 @@
         </div>
         <div id="partnerPlanName" class="partner-plan-name">Launch Trial</div>
         <div id="partnerPlanStatus" class="partner-plan-status">Plan setup pending</div>
-        <div id="partnerPlanStart" class="partner-plan-expiry"></div>
         <div id="partnerPlanExpiry" class="partner-plan-expiry"></div>
       </div>
 
@@ -3005,7 +3004,6 @@ function renderPartnerPlan(){
   const status=expiredByDate ? "expired" : String(venue?.plan_status||"");
   const name=document.getElementById("partnerPlanName");
   const statusElement=document.getElementById("partnerPlanStatus");
-  const start=document.getElementById("partnerPlanStart");
   const expiry=document.getElementById("partnerPlanExpiry");
   const featuresElement=document.getElementById("partnerPlanFeatures");
 
@@ -3017,11 +3015,6 @@ function renderPartnerPlan(){
     statusElement.textContent=status
       ? `${status.replace(/_/g," ").replace(/\b\w/g,char=>char.toUpperCase())} plan`
       : "Plan setup pending";
-  }
-
-  if(start){
-    const formatted=formatPlanDate(venue?.plan_started_at);
-    start.textContent=formatted?`Started ${formatted}`:"";
   }
 
   if(expiry){
