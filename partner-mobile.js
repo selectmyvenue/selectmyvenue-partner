@@ -47,6 +47,13 @@
 
   function closeMore(){const m=byId('partnerMobileMore');if(m)m.hidden=true;}
 
+  function setActive(key){
+    document.querySelectorAll('[data-partner-nav]').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.partnerNav===key);
+      btn.setAttribute('aria-current',btn.dataset.partnerNav===key ? 'page' : 'false');
+    });
+  }
+
   function bind(){
     if(root.dataset.partnerPhoneBound==='1')return;
     root.dataset.partnerPhoneBound='1';
@@ -55,20 +62,24 @@
       if(n){
         const a=n.dataset.partnerNav;
         if(a==='leads'){
+          setActive('leads');
           document.body.classList.remove('partner-phone-filters-open');
           closeMore();
           document.querySelector('.section')?.scrollIntoView({behavior:'smooth',block:'start'});
         }
         if(a==='filters'){
+          setActive('filters');
           document.body.classList.toggle('partner-phone-filters-open');
           closeMore();
           setTimeout(()=>document.querySelector('.lead-workspace')?.scrollIntoView({behavior:'smooth',block:'start'}),30);
         }
         if(a==='analytics'){
+          setActive('analytics');
           closeMore();
           window.smvOpenPartnerAnalytics?.();
         }
         if(a==='more'){
+          setActive('more');
           const m=byId('partnerMobileMore');if(m)m.hidden=!m.hidden;
         }
         return;
@@ -83,6 +94,13 @@
         if(a==='logout')byId('logoutButton')?.click();
         closeMore();
       }
+
+      if(!e.target.closest('#partnerMobileMore') && !e.target.closest('[data-partner-nav="more"]')){
+        closeMore();
+      }
+    });
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape')closeMore();
     });
   }
 
