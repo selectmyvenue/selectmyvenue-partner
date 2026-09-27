@@ -791,3 +791,9 @@
 
 /* Hidden by default; only mobile action shortcuts appear on phone */
 .mobile-lead-actions{display:none}
+.mobile-detail-label{display:none}
+
+@media(max-width:760px){
+  html.partner-phone-crm .desktop-detail-label{display:none!important}
+  html.partner-phone-crm .mobile-detail-label{display:inline!important}
+}
