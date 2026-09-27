@@ -1783,7 +1783,7 @@
       .performance-grid{grid-template-columns:1fr}
     }
   </style>
-<link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260923-mobile-analytics-2"><script defer src="partner-mobile.js?v=20260923-mobile-analytics-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260923-mobile-analytics-2"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260923-mobile-analytics-2"><script defer src="partner-analytics-modal.js?v=20260923-mobile-analytics-2"></script></head>
+<link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-1"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-app-polish-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
 
 <body>
 
@@ -3406,6 +3406,13 @@ function renderAssignments(){
             enquiry.phone_number ||
             "—";
 
+          const phoneDigits = String(phone).replace(/\D/g, "");
+          const callHref = phoneDigits ? `tel:${phoneDigits}` : "";
+          const waDigits = phoneDigits
+            ? (phoneDigits.length === 10 ? `91${phoneDigits}` : phoneDigits)
+            : "";
+          const whatsAppHref = waDigits ? `https://wa.me/${waDigits}` : "";
+
 
           const email =
             enquiry.email ||
@@ -3444,7 +3451,11 @@ function renderAssignments(){
               </td>
 
               <td>
-                ${escapeHtml(phone)}
+                ${
+                  callHref
+                    ? `<a class="mobile-tap-link" href="${escapeHtml(callHref)}">${escapeHtml(phone)}</a>`
+                    : escapeHtml(phone)
+                }
               </td>
 
               <td>
@@ -3499,15 +3510,20 @@ function renderAssignments(){
 
               <td>
 
-                <button
-                  type="button"
-                  class="detail-btn"
-                  data-detail-id="${escapeHtml(
-                    assignment.id
-                  )}"
-                >
-                  View Details
-                </button>
+                <div class="mobile-lead-actions">
+                  ${callHref ? `<a class="mobile-action-call" href="${escapeHtml(callHref)}">☎ Call</a>` : ""}
+                  ${whatsAppHref ? `<a class="mobile-action-wa" href="${escapeHtml(whatsAppHref)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : ""}
+                  <button
+                    type="button"
+                    class="detail-btn"
+                    data-detail-id="${escapeHtml(
+                      assignment.id
+                    )}"
+                  >
+                    <span class="desktop-detail-label">View Details</span>
+                    <span class="mobile-detail-label">Details</span>
+                  </button>
+                </div>
 
               </td>
 
