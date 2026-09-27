@@ -213,3 +213,153 @@
     min-height:52px!important;
   }
 }
+
+
+/* =========================================================
+   PARTNER CRM — READABLE DESKTOP / TABLET TYPOGRAPHY
+   2026-09-27 — keep compact layout, increase legibility
+   ========================================================= */
+@media(min-width:761px){
+  /* Global readable baseline */
+  body{
+    font-size:14px!important;
+    line-height:1.45!important;
+  }
+
+  .top-title{font-size:18px!important}
+  .top-subtitle{font-size:13px!important}
+  .partner-name{font-size:14px!important}
+  .notification-btn{font-size:18px!important}
+  .notification-title{font-size:14px!important}
+  .notification-subtitle{font-size:11px!important}
+  .mark-all-btn{font-size:11px!important}
+  .notification-item-title{font-size:12.5px!important}
+  .notification-message{font-size:11px!important;line-height:1.45!important}
+  .notification-time{font-size:10px!important}
+  .notification-empty{font-size:12px!important}
+
+  .welcome h1{font-size:24px!important;line-height:1.15!important}
+  .welcome-text{font-size:13px!important;line-height:1.4!important}
+
+  .venue-label{font-size:10px!important}
+  .venue-name{font-size:18px!important;line-height:1.2!important}
+  .venue-location{font-size:12px!important}
+  .partner-badge{font-size:10px!important}
+  .partner-plan-name{font-size:13px!important}
+  .partner-plan-status,.partner-plan-expiry{font-size:10px!important}
+
+  .stat-label{
+    font-size:10px!important;
+    line-height:1.2!important;
+  }
+  .stat-value{font-size:24px!important}
+  .stat-note{font-size:10px!important}
+
+  .section-title{font-size:16px!important}
+  .section-subtitle{font-size:11px!important}
+  .refresh-btn{font-size:11px!important}
+
+  .workspace-search-icon{font-size:14px!important}
+  .workspace-input,
+  .workspace-select,
+  .workspace-reset{
+    font-size:12px!important;
+  }
+  .workspace-input,
+  .workspace-select{min-height:40px!important;height:40px!important}
+  .workspace-reset{min-height:40px!important}
+  .workspace-meta{font-size:10px!important}
+  .filter-summary{font-size:11px!important}
+  .clear-filter-btn{font-size:11px!important}
+
+  th{
+    font-size:10px!important;
+    letter-spacing:.45px!important;
+  }
+  td{font-size:12px!important}
+  .customer-name{font-size:13px!important}
+  .secondary{font-size:10px!important}
+  .status{font-size:10px!important}
+  .detail-btn{font-size:10.5px!important}
+  .status-select{font-size:10.5px!important}
+
+  .error-box{font-size:13px!important}
+  .toast{font-size:13px!important}
+
+  .detail-title{font-size:18px!important}
+  .detail-subtitle{font-size:12px!important}
+  .detail-label{font-size:10px!important}
+  .detail-value{font-size:14px!important;line-height:1.55!important}
+  .activity-title{font-size:13px!important}
+  .activity-note{font-size:11px!important}
+  .activity-loading,
+  .activity-empty{font-size:11px!important}
+  .timeline-label{font-size:12px!important}
+  .timeline-description{font-size:11px!important;line-height:1.5!important}
+  .timeline-time{font-size:10px!important}
+
+  .followup-title{font-size:13px!important}
+  .followup-note{font-size:11px!important}
+  .followup-state{font-size:10px!important}
+  .followup-field label{font-size:10px!important}
+  .followup-input,
+  .followup-textarea{font-size:12px!important}
+  .followup-save,
+  .followup-clear{font-size:11px!important}
+  .followup-current{font-size:11px!important}
+  .followup-table{font-size:9px!important}
+
+  .production-outcome-banner{font-size:11px!important}
+  .contact-log-title{font-size:13px!important}
+  .contact-log-note{font-size:10px!important}
+  .contact-log-select,
+  .contact-log-input{font-size:12px!important}
+  .contact-log-save{font-size:11px!important}
+  .followup-unscheduled-warning{font-size:11px!important}
+
+  .quick-actions-title{font-size:13px!important}
+  .quick-actions-note{font-size:10px!important}
+  .quick-action-btn{font-size:11px!important}
+  .journey-current{font-size:10px!important}
+  .timeline-stage{font-size:11px!important}
+
+  .password-field label{font-size:10px!important}
+  .password-help{font-size:10px!important}
+  .password-message{font-size:11px!important}
+  .password-cancel,
+  .password-save{font-size:11px!important}
+
+  .partner-plan-name{font-size:13px!important}
+  .partner-plan-status,
+  .partner-plan-expiry{font-size:10px!important}
+  .performance-head h2{font-size:17px!important}
+  .performance-head p{font-size:10px!important}
+  .analytics-state{font-size:9px!important}
+  .performance-item span{font-size:9px!important}
+  .performance-item strong{font-size:20px!important}
+  .performance-item small{font-size:9px!important}
+  .partner-plan-features{font-size:10px!important}
+  .plan-feature-pill{font-size:10px!important}
+}
+
+@media(min-width:761px) and (max-width:1180px){
+  /* Tablet: keep 4-column KPI grid, but give cards enough breathing room. */
+  .stat-label{font-size:10px!important}
+  .stat-value{font-size:23px!important}
+  .workspace-top{gap:9px!important}
+  .workspace-input,
+  .workspace-select,
+  .workspace-reset{
+    font-size:12px!important;
+    min-height:42px!important;
+    height:42px!important;
+  }
+  .workspace-meta{font-size:10.5px!important}
+  th{font-size:10px!important}
+  td{font-size:12.5px!important}
+  .customer-name{font-size:13.5px!important}
+  .secondary{font-size:10.5px!important}
+  .status,
+  .detail-btn,
+  .status-select{font-size:11px!important}
+}
