@@ -12,10 +12,10 @@
 
   <style>
     :root{
-      --bg:#102326;
-      --panel:#1d3b40;
-      --panel2:#24484e;
-      --line:#427076;
+      --bg:#18373b;
+      --panel:#285258;
+      --panel2:#35676c;
+      --line:#5a858a;
       --teal:#35ead3;
       --teal2:#1cc8b7;
       --gold:#ffda73;
@@ -40,9 +40,9 @@
       background:
         radial-gradient(
           circle at top right,
-          #3a777b 0,
-          var(--bg) 38%,
-          #0b181b 100%
+          #63aeb0 0,
+          var(--bg) 42%,
+          #10282c 100%
         );
       color:var(--text);
     }
@@ -1260,27 +1260,54 @@ margin-top:0;}
       color-scheme:dark;
     }
 
-    .workspace-select option{
-      background:#18383d;
-      color:#f7ffff;
-      padding:8px;
+    /* Force the native filter menu to stay dark/readable on Chrome + Windows */
+    .workspace-select{
+      appearance:auto;
+      -webkit-appearance:auto;
+      background:#285258 !important;
+      color:#ffffff !important;
+      font-weight:750;
+      text-shadow:none;
     }
 
-    .workspace-select option[value="no_pick"]{
-      color:#ffcf70;
+    .workspace-select option,
+    .workspace-select optgroup{
+      background-color:#16383d !important;
+      color:#ffffff !important;
+      font-weight:700;
     }
 
-    .workspace-select option[value="call_back"]{
-      color:#c6b7ff;
+    .workspace-select option:checked{
+      background-color:#176c68 !important;
+      color:#ffffff !important;
     }
 
-    .workspace-select option[value="booked"]{
-      color:#6ff0b0;
-    }
-
+    .workspace-select option[value="no_pick"]{color:#ffd36b !important;}
+    .workspace-select option[value="call_back"]{color:#cbbdff !important;}
+    .workspace-select option[value="booked"]{color:#72f2b3 !important;}
     .workspace-select option[value="lost"],
-    .workspace-select option[value="cancelled"]{
-      color:#ff9a9a;
+    .workspace-select option[value="cancelled"]{color:#ff9b9b !important;}
+
+    /* Brighter premium CRM surface */
+    .lead-workspace{
+      background:
+        linear-gradient(135deg,rgba(48,105,110,.98),rgba(28,70,76,.98)) !important;
+      border-color:rgba(80,235,216,.45) !important;
+      box-shadow:0 16px 42px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.12) !important;
+    }
+
+    .workspace-input,
+    .workspace-select{
+      border-color:#5a8b90 !important;
+      background:linear-gradient(180deg,#35676c,#285258) !important;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 6px 18px rgba(0,0,0,.13) !important;
+    }
+
+    .workspace-input::placeholder{color:#c0d6d8 !important;}
+    .workspace-input:focus,
+    .workspace-select:focus{
+      border-color:#54f1dc !important;
+      box-shadow:0 0 0 3px rgba(84,241,220,.14),0 7px 20px rgba(0,0,0,.14) !important;
     }
 
     .workspace-input{
