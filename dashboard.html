@@ -5094,7 +5094,7 @@ async function openEnquiryDetails(
           <div class="partner-comments-note">
             Add only the information the venue team needs to remember. Customer enquiry details remain read-only here; these comments are stored as the partner note.
           </div>
-          <textarea id="partnerCommentNote" class="partner-comments-input" maxlength="1000" placeholder="Example: Customer wants 2 rooms, prefers veg food, asked for a callback after 7 PM, or has a specific requirement.">\${escapeHtml(assignment.partner_note || "")}</textarea>
+          <textarea id="partnerCommentNote" class="partner-comments-input" maxlength="1000" placeholder="Example: Customer wants 2 rooms, prefers veg food, asked for a callback after 7 PM, or has a specific requirement.">${escapeHtml(assignment.partner_note || "")}</textarea>
           <div class="partner-comments-actions">
             <button id="savePartnerCommentButton" class="partner-comments-save" type="button">Save Comment</button>
           </div>
