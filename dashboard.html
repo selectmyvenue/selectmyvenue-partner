@@ -2073,7 +2073,40 @@
     }
 
 </style>
-<link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-readable-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
+<link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1">
+<style id="partner-final-layout-status-20260929">
+/* Final layout: venue -> stats -> tabs -> enquiries */
+.content{padding-top:8px!important;padding-bottom:22px!important}
+.welcome{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+.venue-card{margin:0 0 7px!important;padding:9px 13px!important;min-height:0!important;border-radius:11px!important}
+.partner-leads-panel{margin:0!important;padding:0!important}
+.stats{margin:0 0 7px!important;gap:6px!important}
+.stat-card{padding:9px 11px!important;border-radius:10px!important}
+.stat-value{margin-top:3px!important;font-size:20px!important;line-height:1.05!important}
+.stat-note{margin-top:2px!important;font-size:8px!important}
+.partner-tabs{margin:0 0 7px!important;padding:3px!important;border-radius:10px!important}
+.partner-tab{padding:6px 10px!important}
+.section{margin:0!important;border-radius:11px!important}
+.section-head{padding:10px 12px!important}
+.lead-workspace{margin:0!important;padding:8px!important;border-radius:10px!important}
+.workspace-top{gap:6px!important}
+.workspace-input,.workspace-select{min-height:38px!important;padding:8px 10px!important}
+.status-select.workspace-select{min-width:150px!important;font-weight:800!important}
+.status-select.status-assigned,.status-select.status-viewed{background:#35676c!important;color:#fff!important;border-color:#70a2a6!important}
+.status-select.status-no_pick{background:rgba(255,207,112,.16)!important;color:#ffd477!important;border-color:rgba(255,207,112,.55)!important}
+.status-select.status-call_back{background:rgba(185,167,255,.16)!important;color:#d0c3ff!important;border-color:rgba(185,167,255,.55)!important}
+.status-select.status-contacted,.status-select.status-detailed_shared{background:rgba(22,199,183,.16)!important;color:#59efdc!important;border-color:rgba(22,199,183,.55)!important}
+.status-select.status-follow_up,.status-select.status-site_visit,.status-select.status-negotiation{background:rgba(241,184,102,.16)!important;color:#ffd18c!important;border-color:rgba(241,184,102,.55)!important}
+.status-select.status-booked{background:rgba(75,213,154,.18)!important;color:#72f2b2!important;border-color:rgba(75,213,154,.58)!important}
+.status-select.status-lost,.status-select.status-cancelled{background:rgba(255,116,116,.16)!important;color:#ff9a9a!important;border-color:rgba(255,116,116,.55)!important}
+.status-select option,.status-select optgroup{background:#16383d!important;color:#fff!important}
+@media(max-width:760px){
+ .content{padding-top:5px!important}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+ .venue-card{padding:7px 9px!important}
+}
+</style>
+<link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-readable-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
 
 <body>
 
@@ -2269,11 +2302,7 @@
 
     </section>
 
-    <div class="partner-tabs" role="tablist" aria-label="Partner dashboard sections">
-      <button id="partnerLeadsTab" class="partner-tab active" type="button" role="tab" aria-selected="true">Customer Leads</button>
-      <button id="partnerVenueTab" class="partner-tab" type="button" role="tab" aria-selected="false">Venue Listing</button>
-    </div>
-    <section id="partnerVenuePanel" class="partner-tab-panel" aria-labelledby="partnerVenueTab">
+<section id="partnerVenuePanel" class="partner-tab-panel" aria-labelledby="partnerVenueTab">
       <div class="venue-listing-panel">
         <div class="venue-listing-head"><div><div class="venue-listing-title">Your Venue Listing</div><div class="venue-listing-subtitle">The venue information currently stored with Select My Venue. Contact the Select My Venue team if anything needs to be updated.</div></div><div id="venueListingStatus" class="venue-listing-status">Listing</div></div>
         <div id="venueListingContent" class="venue-listing-grid"><div class="venue-listing-item venue-listing-wide"><div class="venue-listing-label">Venue</div><div class="venue-listing-value">Loading...</div></div></div>
@@ -2296,6 +2325,11 @@
       <div class="stat-card" data-filter="negotiation" tabindex="0" role="button"><div class="stat-label">Negotiation</div><div id="statNegotiation" class="stat-value">0</div><div class="stat-note">Booking discussion</div></div>
       <div class="stat-card success-card" data-filter="booked" tabindex="0" role="button"><div class="stat-label">Booked</div><div id="statBooked" class="stat-value">0</div><div class="stat-note">Confirmed bookings</div></div>
     </section>
+
+    <div class="partner-tabs" role="tablist" aria-label="Partner dashboard sections">
+      <button id="partnerLeadsTab" class="partner-tab active" type="button" role="tab" aria-selected="true">Customer Leads</button>
+      <button id="partnerVenueTab" class="partner-tab" type="button" role="tab" aria-selected="false">Venue Listing</button>
+    </div>
 
     </section>
 
@@ -3850,7 +3884,7 @@ function renderAssignments(){
 
               <td>
                 <select
-                  class="status-select workspace-select"
+                  class="status-select workspace-select status-${escapeHtml(String(status || "assigned").toLowerCase())}"
                   data-assignment-id="${escapeHtml(
                     assignment.id
                   )}"
