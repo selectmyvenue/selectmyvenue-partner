@@ -64,6 +64,8 @@
       min-height:100vh;
     }
 
+    .partner-tabs{display:flex;gap:8px;margin:18px 0 0;padding:5px;width:max-content;max-width:100%;border:1px solid var(--line);border-radius:13px;background:rgba(7,20,23,.72)}.partner-tab{border:1px solid transparent;border-radius:9px;padding:9px 14px;background:transparent;color:var(--muted);font-size:11px;font-weight:850;cursor:pointer}.partner-tab.active{color:var(--text);background:rgba(22,199,183,.10);border-color:rgba(22,199,183,.22)}.partner-tab-panel{display:none}.partner-tab-panel.active{display:block}.venue-listing-panel{margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(13,32,36,.82)}.venue-listing-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}.venue-listing-title{font-size:15px;font-weight:900}.venue-listing-subtitle{margin-top:4px;color:var(--muted);font-size:10px;line-height:1.5}.venue-listing-status{padding:6px 9px;border-radius:999px;border:1px solid rgba(75,213,154,.25);background:rgba(75,213,154,.07);color:var(--green);font-size:9px;font-weight:900;white-space:nowrap}.venue-listing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.venue-listing-item{padding:12px;border:1px solid var(--line);border-radius:11px;background:#08191c;min-width:0}.venue-listing-label{font-size:9px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:.5px}.venue-listing-value{margin-top:5px;font-size:11px;font-weight:700;line-height:1.45;word-break:break-word}.venue-listing-wide{grid-column:1/-1}.venue-listing-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.venue-listing-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:#08191c;color:#dce9ea;text-decoration:none;font-size:10px;font-weight:850}.venue-listing-link.primary{border-color:rgba(22,199,183,.25);background:rgba(22,199,183,.08);color:var(--teal)}@media(max-width:760px){.partner-tabs{width:100%}.partner-tab{flex:1}.venue-listing-grid{grid-template-columns:1fr 1fr}.venue-listing-head{flex-direction:column}}
+
     /* =========================================================
        TOP BAR
     ========================================================= */
@@ -2007,6 +2009,18 @@
 
     </section>
 
+    <div class="partner-tabs" role="tablist" aria-label="Partner dashboard sections">
+      <button id="partnerLeadsTab" class="partner-tab active" type="button" role="tab" aria-selected="true">Customer Leads</button>
+      <button id="partnerVenueTab" class="partner-tab" type="button" role="tab" aria-selected="false">Venue Listing</button>
+    </div>
+    <section id="partnerVenuePanel" class="partner-tab-panel" aria-labelledby="partnerVenueTab">
+      <div class="venue-listing-panel">
+        <div class="venue-listing-head"><div><div class="venue-listing-title">Your Venue Listing</div><div class="venue-listing-subtitle">The venue information currently stored with Select My Venue. Contact the Select My Venue team if anything needs to be updated.</div></div><div id="venueListingStatus" class="venue-listing-status">Listing</div></div>
+        <div id="venueListingContent" class="venue-listing-grid"><div class="venue-listing-item venue-listing-wide"><div class="venue-listing-label">Venue</div><div class="venue-listing-value">Loading...</div></div></div>
+        <div id="venueListingActions" class="venue-listing-actions"></div>
+      </div>
+    </section>
+    <section id="partnerLeadsPanel" class="partner-tab-panel active">
 
     <!-- =====================================================
          STATS
@@ -2021,6 +2035,8 @@
       <div class="stat-card" data-filter="site_visit" tabindex="0" role="button"><div class="stat-label">Site Visits</div><div id="statSiteVisit" class="stat-value">0</div><div class="stat-note">Visit stage</div></div>
       <div class="stat-card" data-filter="negotiation" tabindex="0" role="button"><div class="stat-label">Negotiation</div><div id="statNegotiation" class="stat-value">0</div><div class="stat-note">Booking discussion</div></div>
       <div class="stat-card success-card" data-filter="booked" tabindex="0" role="button"><div class="stat-label">Booked</div><div id="statBooked" class="stat-value">0</div><div class="stat-note">Confirmed bookings</div></div>
+    </section>
+
     </section>
 
     <div id="partnerAnalyticsModal" class="analytics-modal-backdrop" aria-hidden="true">
@@ -2929,7 +2945,7 @@ async function loadVenue(){
   } =
     await supabaseClient
       .from("venues")
-      .select("*")
+      .select("id,venue_name,venue_type,description,city,area,address,state,pincode,latitude,longitude,google_maps_url,contact_person,contact_mobile,contact_email,whatsapp_number,website_url,instagram_url,facebook_url,capacity_min,capacity_max,price_min_per_person,price_max_per_person,food_veg,food_non_veg,parking_available,rooms_available,catering_available,decoration_available,venue_status,verification_status,public_listing_enabled,cover_image_url,room_count,event_types,outdoor_available,indoor_available,parking_capacity,facilities")
       .eq(
         "id",
         partnerProfile.venue_id
@@ -2984,9 +3000,26 @@ async function loadVenue(){
       .join(", ") ||
       "Partner venue";
 
+  renderVenueListing();
   await loadPartnerPlanDetails();
 }
 
+
+function renderVenueListing(){
+  const box=document.getElementById("venueListingContent"), status=document.getElementById("venueListingStatus"), actions=document.getElementById("venueListingActions");
+  if(!box||!actions)return;
+  if(!venue){box.innerHTML='<div class="venue-listing-item venue-listing-wide"><div class="venue-listing-value">Venue details are unavailable right now.</div></div>';actions.innerHTML='';return;}
+  const value=v=>escapeHtml(v===null||v===undefined||v===""?"—":v);
+  const address=[venue.address,venue.area,venue.city,venue.state,venue.pincode].filter(Boolean).join(", ");
+  const capacity=venue.capacity_min||venue.capacity_max?[venue.capacity_min,venue.capacity_max].filter(v=>v!==null&&v!==undefined&&v!=="").join("–")+" guests":"—";
+  const food=[venue.food_veg?"Veg":"",venue.food_non_veg?"Non-Veg":""].filter(Boolean).join(" / ")||"—";
+  const amenities=[venue.parking_available?"Parking":"",venue.rooms_available?"Rooms":"",venue.catering_available?"Catering":"",venue.decoration_available?"Decoration":"",venue.outdoor_available?"Outdoor":"",venue.indoor_available?"Indoor":""].filter(Boolean).join(" · ")||"—";
+  const events=Array.isArray(venue.event_types)?venue.event_types.filter(Boolean).join(", "):(venue.event_types||"—");
+  const facilities=Array.isArray(venue.facilities)?venue.facilities.filter(Boolean).join(", "):(venue.facilities||"—");
+  box.innerHTML=['<div class="venue-listing-item"><div class="venue-listing-label">Venue Name</div><div class="venue-listing-value">'+value(venue.venue_name)+'</div></div>','<div class="venue-listing-item"><div class="venue-listing-label">Venue Type</div><div class="venue-listing-value">'+value(venue.venue_type)+'</div></div>','<div class="venue-listing-item"><div class="venue-listing-label">Location</div><div class="venue-listing-value">'+value([venue.area,venue.city].filter(Boolean).join(", "))+'</div></div>','<div class="venue-listing-item venue-listing-wide"><div class="venue-listing-label">Full Address</div><div class="venue-listing-value">'+value(address)+'</div></div>','<div class="venue-listing-item"><div class="venue-listing-label">Capacity</div><div class="venue-listing-value">'+value(capacity)+'</div></div>','<div class="venue-listing-item"><div class="venue-listing-label">Food</div><div class="venue-listing-value">'+value(food)+'</div></div>','<div class="venue-listing-item"><div class="venue-listing-label">Event Types</div><div class="venue-listing-value">'+value(events)+'</div></div>','<div class="venue-listing-item venue-listing-wide"><div class="venue-listing-label">Facilities</div><div class="venue-listing-value">'+value(facilities)+'</div></div>','<div class="venue-listing-item venue-listing-wide"><div class="venue-listing-label">Available Amenities</div><div class="venue-listing-value">'+value(amenities)+'</div></div>',venue.description?'<div class="venue-listing-item venue-listing-wide"><div class="venue-listing-label">Description</div><div class="venue-listing-value">'+value(venue.description)+'</div></div>':''].join("");
+  status.textContent=venue.verification_status==="verified"?"✓ Verified listing":(venue.public_listing_enabled?"Listing active":"Listing in preparation");
+  actions.innerHTML=(venue.google_maps_url?'<a class="venue-listing-link primary" href="'+escapeHtml(venue.google_maps_url)+'" target="_blank" rel="noopener noreferrer">📍 View on Maps</a>':'')+(venue.website_url?'<a class="venue-listing-link" href="'+escapeHtml(venue.website_url)+'" target="_blank" rel="noopener noreferrer">🌐 Website</a>':'')+(venue.instagram_url?'<a class="venue-listing-link" href="'+escapeHtml(venue.instagram_url)+'" target="_blank" rel="noopener noreferrer">Instagram</a>':'');
+}
 
 /* ============================================================
    GROWTH & INSIGHTS — PARTNER PLAN
@@ -6163,6 +6196,11 @@ syncLeadWorkspaceControls();
    STAGE 6K-A — COMMAND CENTER CARD FILTERS
 ============================================================ */
 document.querySelectorAll(".stat-card[data-filter]").forEach(card=>{const activate=()=>setDashboardFilter(card.dataset.filter);card.addEventListener("click",activate);card.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();activate();}});});
+const partnerLeadsTab=document.getElementById("partnerLeadsTab"), partnerVenueTab=document.getElementById("partnerVenueTab"), partnerLeadsPanel=document.getElementById("partnerLeadsPanel"), partnerVenuePanel=document.getElementById("partnerVenuePanel");
+function activatePartnerTab(tab){const venueActive=tab==="venue";partnerVenueTab?.classList.toggle("active",venueActive);partnerLeadsTab?.classList.toggle("active",!venueActive);partnerVenueTab?.setAttribute("aria-selected",String(venueActive));partnerLeadsTab?.setAttribute("aria-selected",String(!venueActive));partnerVenuePanel?.classList.toggle("active",venueActive);partnerLeadsPanel?.classList.toggle("active",!venueActive);}
+partnerVenueTab?.addEventListener("click",()=>activatePartnerTab("venue"));
+partnerLeadsTab?.addEventListener("click",()=>activatePartnerTab("leads"));
+
 const clearDashboardFilterButton=document.getElementById("clearDashboardFilter");
 if(clearDashboardFilterButton){clearDashboardFilterButton.addEventListener("click",()=>setDashboardFilter("all"));}
 
