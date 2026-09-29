@@ -12,15 +12,15 @@
 
   <style>
     :root{
-      --bg:#071417;
-      --panel:#0d2024;
-      --panel2:#10272b;
-      --line:#1c393e;
-      --teal:#16c7b7;
-      --teal2:#0e9d94;
-      --gold:#e5b85c;
-      --text:#f4f8f8;
-      --muted:#91a8ab;
+      --bg:#0d1d20;
+      --panel:#173136;
+      --panel2:#1d3a40;
+      --line:#31565b;
+      --teal:#28e0ca;
+      --teal2:#16b9aa;
+      --gold:#ffd36a;
+      --text:#f7ffff;
+      --muted:#a9c0c3;
       --green:#4bd59a;
       --orange:#f1b866;
       --red:#ff7474;
@@ -40,9 +40,9 @@
       background:
         radial-gradient(
           circle at top right,
-          #12383d 0,
-          var(--bg) 42%,
-          #040b0d 100%
+          #2b6c70 0,
+          var(--bg) 40%,
+          #081316 100%
         );
       color:var(--text);
     }
@@ -82,7 +82,7 @@
       min-height:70px;
       padding:0 28px;
 
-      background:rgba(6,19,22,.94);
+      background:rgba(17,43,47,.94);
       border-bottom:1px solid rgba(255,255,255,.06);
 
       backdrop-filter:blur(14px);
@@ -512,7 +512,7 @@
       border:1px solid var(--line);
       border-radius:var(--radius);
 
-      background:rgba(13,32,36,.92);
+      background:rgba(24,53,58,.94);
     }
     .stat-card[data-filter]{cursor:pointer;transition:.18s ease}
     .stat-card[data-filter]:hover{transform:translateY(-2px);border-color:rgba(22,199,183,.28);background:rgba(16,39,43,.96)}
@@ -553,7 +553,7 @@
       border:1px solid var(--line);
       border-radius:var(--radius);
 
-      background:rgba(13,32,36,.94);
+      background:rgba(24,53,58,.96);
     }
 
     .section-head{
@@ -662,6 +662,18 @@
       border:1px solid rgba(22,199,183,.17);
     }
 
+    .status-no_pick{
+      color:#ffcf70;
+      background:rgba(255,207,112,.11);
+      border:1px solid rgba(255,207,112,.28);
+    }
+
+    .status-call_back{
+      color:#b9a7ff;
+      background:rgba(185,167,255,.11);
+      border:1px solid rgba(185,167,255,.28);
+    }
+
     .status-follow_up,
     .status-site_visit,
     .status-negotiation{
@@ -694,8 +706,8 @@
       border-radius:9px;
       border:1px solid var(--line);
 
-      background:#08191c;
-      color:#dce8e9;
+      background:linear-gradient(180deg,#17383d,#102a2e);
+      color:#f1fbfb;
 
       outline:none;
       cursor:pointer;
@@ -1140,7 +1152,11 @@
     /* PARTNER CRM — COMPACT LEAD-FIRST LAYOUT */
     .content{padding-top:16px;}
     .stats{margin-bottom:14px;}
-    .lead-workspace{margin-top:0;}
+    .lead-workspace{
+      border-color:rgba(40,224,202,.20);
+      background:linear-gradient(135deg,rgba(31,67,72,.96),rgba(20,47,52,.96));
+      box-shadow:0 12px 35px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.045);
+margin-top:0;}
     @media(max-width:600px){.content{padding-top:12px;}.stats{margin-bottom:10px;}}
 
     /* =========================================================
@@ -1227,14 +1243,15 @@
     .workspace-input,
     .workspace-select{
       width:100%;
-      min-height:38px;
-      padding:9px 10px;
-      border:1px solid var(--line);
-      border-radius:10px;
+      min-height:40px;
+      padding:9px 11px;
+      border:1px solid #3b666b;
+      border-radius:11px;
       outline:none;
-      background:#08191c;
-      color:#dce8e9;
+      background:linear-gradient(180deg,#1b3d42,#153237);
+      color:#f4ffff;
       font-size:11px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 4px 14px rgba(0,0,0,.10);
     }
 
     .workspace-input{
@@ -2624,6 +2641,8 @@ function resetLeadWorkspace(clearCardFilter = true){
 const STATUS_OPTIONS = [
   "assigned",
   "viewed",
+  "no_pick",
+  "call_back",
   "contacted",
   "detailed_shared",
   "follow_up",
@@ -2643,6 +2662,8 @@ function nextActionForStatus(status){
   const actions = {
     assigned:"Contact Customer",
     viewed:"Contact Customer",
+    no_pick:"Call Customer Again",
+    call_back:"Call Back Later",
     contacted:"Share Details",
     detailed_shared:"Follow Up",
     follow_up:"Confirm Follow-up",
