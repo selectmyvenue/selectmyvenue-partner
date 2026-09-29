@@ -1303,6 +1303,14 @@
        STAGE 6K-B — CUSTOMER JOURNEY + QUICK ACTIONS
     ========================================================= */
 
+.lead-contact-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)}
+.lead-contact-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:#08191c;color:#dce8e9;text-decoration:none;cursor:pointer;font-size:10px;font-weight:850;transition:.15s ease}
+.lead-contact-btn:hover{transform:translateY(-1px);border-color:rgba(22,199,183,.35);background:rgba(22,199,183,.07)}
+.lead-contact-btn.call{color:#8fe9c4;border-color:rgba(75,213,154,.22)}
+.lead-contact-btn.whatsapp{color:#8fe9c4;border-color:rgba(75,213,154,.28);background:rgba(75,213,154,.045)}
+.lead-contact-btn.copy{color:#c8d8ff;border-color:rgba(121,174,248,.22)}
+@media(max-width:600px){.lead-contact-actions{display:grid;grid-template-columns:1fr 1fr}.lead-contact-btn{width:100%}}
+
     .quick-actions-box{
       margin-top:18px;
       padding:16px;
@@ -4474,6 +4482,12 @@ async function openEnquiryDetails(
 
         </div>
 
+        <div class="lead-contact-actions" aria-label="Customer contact actions">
+          <a class="lead-contact-btn call" id="leadCallButton" href="#">📞 Call Customer</a>
+          <a class="lead-contact-btn whatsapp" id="leadWhatsAppButton" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <button class="lead-contact-btn copy" id="copyLeadDetailsButton" type="button">⧉ Copy Lead Details</button>
+        </div>
+
 
         ${
           ["booked","lost","cancelled","converted","closed"].includes(
@@ -4608,6 +4622,24 @@ async function openEnquiryDetails(
         </div>
       `;
 
+
+  const phoneRaw = String(enquiry.mobile || enquiry.phone || enquiry.phone_number || "");
+  const phoneDigits = phoneRaw.replace(/[^0-9]/g,"");
+  const callButton = document.getElementById("leadCallButton");
+  const whatsappButton = document.getElementById("leadWhatsAppButton");
+  if(callButton){
+    if(phoneDigits){ callButton.href="tel:"+phoneDigits; } else { callButton.removeAttribute("href"); callButton.setAttribute("aria-disabled","true"); callButton.textContent="📞 No Phone"; }
+  }
+  if(whatsappButton){
+    if(phoneDigits){ const waDigits=phoneDigits.length===10 ? "91"+phoneDigits : phoneDigits; whatsappButton.href="https://wa.me/"+waDigits; } else { whatsappButton.removeAttribute("href"); whatsappButton.setAttribute("aria-disabled","true"); whatsappButton.textContent="💬 No WhatsApp"; }
+  }
+  const copyLeadDetailsButton = document.getElementById("copyLeadDetailsButton");
+  if(copyLeadDetailsButton){
+    copyLeadDetailsButton.addEventListener("click",async()=>{
+      const leadText=["Select My Venue — Lead","Customer: "+(enquiry.customer_name || "—"),"Mobile: "+(enquiry.mobile || enquiry.phone || "—"),"Email: "+(enquiry.email || "—"),"Event: "+(enquiry.occasion || enquiry.event || "—"),"Event Date: "+formatDate(enquiry.event_date),"Guests: "+(enquiry.guests ?? "—"),"Location: "+(enquiry.location || "—"),"Budget/Person: "+(enquiry.budget_per_person ? "₹"+enquiry.budget_per_person : "—"),"Food: "+(enquiry.food_preference || "—"),"Requirements: "+(enquiry.requirements || "—")].join("\n");
+      try{ await navigator.clipboard.writeText(leadText); showToast("Lead details copied."); }catch(_){ showToast("Unable to copy lead details.",true); }
+    });
+  }
 
   const saveFollowUpButton = document.getElementById("saveFollowUpButton");
   if(saveFollowUpButton){
