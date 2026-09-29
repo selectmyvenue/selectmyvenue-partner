@@ -703,6 +703,20 @@
       border-color:var(--teal);
     }
 
+    .next-action-chip{
+      display:inline-flex;
+      align-items:center;
+      max-width:170px;
+      padding:6px 9px;
+      border-radius:999px;
+      border:1px solid rgba(229,184,92,.22);
+      background:rgba(229,184,92,.07);
+      color:#f0cf86;
+      font-size:10px;
+      font-weight:800;
+      line-height:1.25;
+    }
+
     /* =========================================================
        DETAILS BUTTON
     ========================================================= */
@@ -2152,8 +2166,9 @@
               <th>Guests</th>
               <th>Location</th>
               <th>Assignment</th>
+              <th>Status</th>
               <th>Details</th>
-              <th>Update Status</th>
+              <th>Next Action</th>
             </tr>
 
           </thead>
@@ -2162,7 +2177,7 @@
 
             <tr>
 
-              <td colspan="10">
+              <td colspan="11">
 
                 <div class="empty">
 
@@ -2605,6 +2620,23 @@ const STATUS_OPTIONS = [
 /* ============================================================
    BASIC HELPERS
 ============================================================ */
+
+function nextActionForStatus(status){
+  const actions = {
+    assigned:"Contact Customer",
+    viewed:"Contact Customer",
+    contacted:"Share Details",
+    detailed_shared:"Follow Up",
+    follow_up:"Confirm Follow-up",
+    site_visit:"Follow Up After Visit",
+    negotiation:"Follow Up on Booking",
+    booked:"Booking Confirmed ✓",
+    lost:"No Further Action",
+    cancelled:"No Further Action"
+  };
+  return actions[String(status || "").toLowerCase()] || "Contact Customer";
+}
+
 
 function safe(value){
 
@@ -3367,7 +3399,7 @@ function renderAssignments(){
     body.innerHTML =
       `
         <tr>
-          <td colspan="10">
+          <td colspan="11">
 
             <div class="empty">
 
@@ -3498,16 +3530,11 @@ function renderAssignments(){
 
               <td>
 
-                <span
-                  class="status ${statusClass(status)}"
-                >
-                  ${escapeHtml(
-                    formatStatus(status)
-                  )}
+                <span class="status status-assigned">
+                  Assigned
                 </span>
 
                 <div class="secondary">
-                  Assigned
                   ${escapeHtml(
                     formatDate(
                       assignment.assigned_at
@@ -3520,6 +3547,18 @@ function renderAssignments(){
                   return `<div class="followup-table ${followState.key}">⏰ ${escapeHtml(followState.label)} · ${escapeHtml(formatDateTime(assignment.follow_up_at))}</div>`;
                 })() : ""}
 
+              </td>
+
+              <td>
+                <select
+                  class="status-select"
+                  data-assignment-id="${escapeHtml(
+                    assignment.id
+                  )}"
+                  aria-label="Update enquiry status"
+                >
+                  ${buildStatusOptions(status)}
+                </select>
               </td>
 
               <td>
@@ -3542,17 +3581,9 @@ function renderAssignments(){
               </td>
 
               <td>
-
-                <select
-                  class="status-select"
-                  data-assignment-id="${escapeHtml(
-                    assignment.id
-                  )}"
-                  aria-label="Update enquiry status"
-                >
-                  ${buildStatusOptions(status)}
-                </select>
-
+                <span class="next-action-chip">
+                  ${escapeHtml(nextActionForStatus(status))}
+                </span>
               </td>
 
             </tr>
@@ -4052,7 +4083,7 @@ function formatActivityType(type){
       "Contacted",
 
     detailed_shared:
-      "Detailed Shared",
+      "Details Shared",
 
     follow_up:
       "Follow Up",
@@ -4449,7 +4480,21 @@ async function openEnquiryDetails(
               )}
             </div>
 
+                 <div class="detail-item">
+            <div class="detail-label">
+              Next Action
+            </div>
+            <div class="detail-value">
+              ${value(
+                nextActionForStatus(
+                  assignment.assignment_status || "assigned"
+                )
+              )}
+            </div>
           </div>
+
+
+   </div>
 
 
           <div class="detail-item">
@@ -6165,7 +6210,7 @@ if(clearDashboardFilterButton){clearDashboardFilterButton.addEventListener("clic
         `
           <tr>
 
-            <td colspan="10">
+            <td colspan="11">
 
               <div class="empty">
 
