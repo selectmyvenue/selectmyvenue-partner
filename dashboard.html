@@ -12,13 +12,13 @@
 
   <style>
     :root{
-      --bg:#0d1d20;
-      --panel:#173136;
-      --panel2:#1d3a40;
-      --line:#31565b;
-      --teal:#28e0ca;
-      --teal2:#16b9aa;
-      --gold:#ffd36a;
+      --bg:#102326;
+      --panel:#1d3b40;
+      --panel2:#24484e;
+      --line:#427076;
+      --teal:#35ead3;
+      --teal2:#1cc8b7;
+      --gold:#ffda73;
       --text:#f7ffff;
       --muted:#a9c0c3;
       --green:#4bd59a;
@@ -40,9 +40,9 @@
       background:
         radial-gradient(
           circle at top right,
-          #2b6c70 0,
-          var(--bg) 40%,
-          #081316 100%
+          #3a777b 0,
+          var(--bg) 38%,
+          #0b181b 100%
         );
       color:var(--text);
     }
@@ -1216,7 +1216,8 @@ margin-top:0;}
       padding:14px;
       border:1px solid rgba(255,255,255,.055);
       border-radius:13px;
-      background:rgba(5,15,17,.24);
+      background:linear-gradient(135deg,rgba(39,79,84,.92),rgba(24,54,59,.96));
+      box-shadow:0 14px 34px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .workspace-top{
@@ -1248,10 +1249,38 @@ margin-top:0;}
       border:1px solid #3b666b;
       border-radius:11px;
       outline:none;
-      background:linear-gradient(180deg,#1b3d42,#153237);
-      color:#f4ffff;
+      background:linear-gradient(180deg,#285258,#1c3e43);
+      color:#f7ffff;
       font-size:11px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 4px 14px rgba(0,0,0,.10);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 5px 16px rgba(0,0,0,.12);
+    }
+
+    .workspace-input,
+    .workspace-select{
+      color-scheme:dark;
+    }
+
+    .workspace-select option{
+      background:#18383d;
+      color:#f7ffff;
+      padding:8px;
+    }
+
+    .workspace-select option[value="no_pick"]{
+      color:#ffcf70;
+    }
+
+    .workspace-select option[value="call_back"]{
+      color:#c6b7ff;
+    }
+
+    .workspace-select option[value="booked"]{
+      color:#6ff0b0;
+    }
+
+    .workspace-select option[value="lost"],
+    .workspace-select option[value="cancelled"]{
+      color:#ff9a9a;
     }
 
     .workspace-input{
