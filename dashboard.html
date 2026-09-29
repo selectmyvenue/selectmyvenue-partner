@@ -2100,13 +2100,22 @@
 .status-select.status-booked{background:rgba(75,213,154,.18)!important;color:#72f2b2!important;border-color:rgba(75,213,154,.58)!important}
 .status-select.status-lost,.status-select.status-cancelled{background:rgba(255,116,116,.16)!important;color:#ff9a9a!important;border-color:rgba(255,116,116,.55)!important}
 .status-select option,.status-select optgroup{background:#16383d!important;color:#fff!important}
+.status-select.workspace-select option.status-option{font-weight:800!important}
+.status-select.workspace-select option.status-assigned{color:#79aef8!important}
+.status-select.workspace-select option.status-viewed{color:#35ead3!important}
+.status-select.workspace-select option.status-no_pick{color:#ffcf70!important}
+.status-select.workspace-select option.status-call_back{color:#b9a7ff!important}
+.status-select.workspace-select option.status-contacted,.status-select.workspace-select option.status-detailed_shared{color:#59efdc!important}
+.status-select.workspace-select option.status-follow_up,.status-select.workspace-select option.status-site_visit,.status-select.workspace-select option.status-negotiation{color:#ffd18c!important}
+.status-select.workspace-select option.status-booked{color:#72f2b2!important}
+.status-select.workspace-select option.status-lost,.status-select.workspace-select option.status-cancelled{color:#ff9a9a!important}
 @media(max-width:760px){
  .content{padding-top:5px!important}
  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
  .venue-card{padding:7px 9px!important}
 }
 </style>
-<link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-readable-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
+<link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-readable-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
 
 <body>
 
@@ -3677,6 +3686,28 @@ function setDashboardFilter(filter){activeDashboardFilter=filter||"all";renderAs
    STATUS OPTIONS
 ============================================================ */
 
+function statusOptionStyle(status){
+
+  const styles = {
+    all:            "color:#dbe9ea;background:#16383d",
+    assigned:       "color:#79aef8;background:#16383d",
+    viewed:         "color:#35ead3;background:#16383d",
+    no_pick:        "color:#ffcf70;background:#16383d",
+    call_back:      "color:#b9a7ff;background:#16383d",
+    contacted:      "color:#59efdc;background:#16383d",
+    detailed_shared:"color:#59efdc;background:#16383d",
+    follow_up:      "color:#ffd18c;background:#16383d",
+    site_visit:    "color:#ffd18c;background:#16383d",
+    negotiation:   "color:#ffd18c;background:#16383d",
+    booked:        "color:#72f2b2;background:#16383d",
+    lost:          "color:#ff9a9a;background:#16383d",
+    cancelled:     "color:#ff9a9a;background:#16383d"
+  };
+
+  return styles[String(status || "").toLowerCase()] || styles.all;
+}
+
+
 function buildStatusOptions(currentStatus){
 
   return STATUS_OPTIONS
@@ -3684,7 +3715,9 @@ function buildStatusOptions(currentStatus){
       status =>
         `
           <option
+            class="status-option ${statusClass(status)}"
             value="${escapeHtml(status)}"
+            style="${statusOptionStyle(status)}"
             ${status === currentStatus ? "selected" : ""}
           >
             ${escapeHtml(
@@ -3694,6 +3727,23 @@ function buildStatusOptions(currentStatus){
         `
     )
     .join("");
+}
+
+
+function applyStatusFilterOptionColors(){
+
+  const filter = document.getElementById("leadStatusFilter");
+
+  if(!filter){
+    return;
+  }
+
+  Array.from(filter.options).forEach(option => {
+    const status = option.value || "all";
+    option.classList.add("status-option", statusClass(status));
+    option.style.cssText = statusOptionStyle(status);
+    option.style.fontWeight = "800";
+  });
 }
 
 
@@ -6490,6 +6540,7 @@ if(resetLeadWorkspaceButton){
 }
 
 syncLeadWorkspaceControls();
+applyStatusFilterOptionColors();
 
 
 /* ============================================================
