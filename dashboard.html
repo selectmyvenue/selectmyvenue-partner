@@ -1927,7 +1927,117 @@
       .performance-head{flex-direction:column}
       .performance-grid{grid-template-columns:1fr}
     }
-  </style>
+  
+    /* FINAL-COMPACT-FIX-2026-09-29 */
+    .content{
+      padding-top:8px !important;
+      padding-bottom:24px !important;
+    }
+    .welcome{
+      display:none !important;
+      margin:0 !important;
+      padding:0 !important;
+    }
+    .venue-card{
+      margin:0 0 7px !important;
+      padding:8px 12px !important;
+      min-height:0 !important;
+      border-radius:11px !important;
+      gap:10px !important;
+    }
+    .venue-info{gap:8px !important;}
+    .venue-icon{
+      width:34px !important;
+      height:34px !important;
+      flex:0 0 34px !important;
+      border-radius:9px !important;
+      font-size:16px !important;
+    }
+    .venue-label{font-size:8px !important;}
+    .venue-name{
+      margin-top:1px !important;
+      font-size:14px !important;
+      line-height:1.15 !important;
+    }
+    .venue-location{
+      margin-top:1px !important;
+      font-size:9px !important;
+      line-height:1.2 !important;
+    }
+    .venue-card .partner-badge{
+      padding:4px 7px !important;
+      font-size:8px !important;
+    }
+    .venue-plan-summary{gap:2px !important;}
+    .partner-tabs{
+      margin:0 0 7px !important;
+      padding:3px !important;
+    }
+    .partner-tab{padding:6px 10px !important;}
+    .partner-leads-panel{
+      margin:0 !important;
+      padding:0 !important;
+    }
+    .stats{
+      margin:0 0 8px !important;
+      gap:6px !important;
+    }
+    .stat-card{
+      padding:9px 11px !important;
+      border-radius:10px !important;
+    }
+    .stat-label{font-size:8px !important;}
+    .stat-value{
+      margin-top:3px !important;
+      font-size:20px !important;
+      line-height:1.05 !important;
+    }
+    .stat-note{
+      margin-top:2px !important;
+      font-size:8px !important;
+    }
+    .section{
+      margin:0 !important;
+      border-radius:11px !important;
+    }
+    .section-head{
+      padding:10px 12px !important;
+    }
+    .section-subtitle{
+      margin-top:2px !important;
+      font-size:8px !important;
+    }
+    .lead-workspace{
+      margin:0 !important;
+      padding:8px !important;
+    }
+    .workspace-top{gap:6px !important;}
+    @media(max-width:760px){
+      .content{
+        width:calc(100% - 20px) !important;
+        padding-top:6px !important;
+      }
+      .venue-card{padding:7px 9px !important;}
+      .stats{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:6px !important;
+      }
+      .stat-card{padding:8px 9px !important;}
+    }
+    /* Keep filter controls readable even when the browser owns the native menu. */
+    .workspace-input,
+    .workspace-select{
+      background:#35676c !important;
+      color:#ffffff !important;
+      border-color:#70a2a6 !important;
+    }
+    .workspace-select option,
+    .workspace-select optgroup{
+      background:#16383d !important;
+      color:#ffffff !important;
+    }
+
+</style>
 <link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-readable-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
 
 <body>
