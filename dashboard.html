@@ -2037,6 +2037,41 @@
       color:#ffffff !important;
     }
 
+
+    /* FINAL-STATUS-FILTER-SYNC-2026-09-29 */
+    /* Row Status uses the exact same visual treatment as the upper Status filter. */
+    .status-select.workspace-select{
+      width:100% !important;
+      min-width:150px !important;
+      min-height:40px !important;
+      padding:9px 11px !important;
+      border:1px solid #70a2a6 !important;
+      border-radius:11px !important;
+      background:#35676c !important;
+      color:#ffffff !important;
+      font-size:11px !important;
+      font-weight:750 !important;
+      color-scheme:dark !important;
+      outline:none !important;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 6px 18px rgba(0,0,0,.13) !important;
+    }
+    .status-select.workspace-select:hover,
+    .status-select.workspace-select:focus{
+      border-color:#54f1dc !important;
+      background:#35676c !important;
+      color:#ffffff !important;
+    }
+    .status-select.workspace-select option,
+    .status-select.workspace-select optgroup{
+      background:#16383d !important;
+      color:#ffffff !important;
+      font-weight:700 !important;
+    }
+    .status-select.workspace-select option:checked{
+      background:#176c68 !important;
+      color:#ffffff !important;
+    }
+
 </style>
 <link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1"><link rel="stylesheet" href="partner-mobile.css?v=20260927-app-polish-1"><script defer src="partner-mobile.js?v=20260927-app-polish-2"></script><link rel="stylesheet" href="partner-lead-first.css?v=20260927-readable-1"><link rel="stylesheet" href="partner-analytics-modal.css?v=20260927-app-polish-1"><script defer src="partner-analytics-modal.js?v=20260927-app-polish-1"></script></head>
 
@@ -2352,7 +2387,7 @@
             <option value="no_pick">No Pick</option>
             <option value="call_back">Call Back</option>
             <option value="contacted">Contacted</option>
-            <option value="details_shared">Details Shared</option>
+            <option value="detailed_shared">Details Shared</option>
             <option value="follow_up">Follow Up</option>
             <option value="site_visit">Site Visit</option>
             <option value="negotiation">Negotiation</option>
@@ -3815,7 +3850,7 @@ function renderAssignments(){
 
               <td>
                 <select
-                  class="status-select"
+                  class="status-select workspace-select"
                   data-assignment-id="${escapeHtml(
                     assignment.id
                   )}"
