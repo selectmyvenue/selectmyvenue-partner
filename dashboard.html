@@ -1121,35 +1121,11 @@
 
 
 
-    /* =========================================================
-       STAGE 6O — VENUE OWNER COMMAND CENTER
-    ========================================================= */
-    .owner-command-center{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:12px;margin-bottom:18px}
-    .owner-command-card{min-width:0;padding:16px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,rgba(13,32,36,.96),rgba(8,24,28,.96))}
-    .owner-command-card.health{border-color:rgba(22,199,183,.2);background:linear-gradient(145deg,rgba(22,199,183,.07),rgba(8,24,28,.96))}
-    .owner-command-label{color:var(--muted);font-size:8px;font-weight:900;letter-spacing:.7px;text-transform:uppercase}
-    .owner-command-value{margin-top:6px;font-size:23px;font-weight:950;color:#f3fbfa}
-    .owner-command-note{margin-top:4px;color:var(--muted);font-size:9px;line-height:1.4}
-    .owner-health-track{height:7px;margin-top:10px;overflow:hidden;border-radius:999px;background:#08191c;border:1px solid rgba(255,255,255,.05)}
-    .owner-health-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--teal2),var(--teal),var(--green));transition:width .35s ease}
-    .owner-health-breakdown{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
-    .owner-health-pill{padding:4px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:#b8cacc;font-size:8px;font-weight:750}
-    .owner-next-actions{margin-bottom:18px;padding:16px;border:1px solid rgba(241,184,102,.18);border-radius:15px;background:linear-gradient(145deg,rgba(241,184,102,.045),rgba(8,24,28,.96))}
-    .owner-next-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-    .owner-next-title{font-size:12px;font-weight:900}.owner-next-note{margin-top:3px;color:var(--muted);font-size:9px}
-    .owner-next-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-    .owner-next-item{padding:10px;border:1px solid rgba(255,255,255,.055);border-radius:11px;background:rgba(255,255,255,.018)}
-    .owner-next-item strong{display:block;font-size:10px;color:#eef6f6}.owner-next-item span{display:block;margin-top:3px;color:var(--muted);font-size:9px;line-height:1.4}
-    .lead-priority{display:inline-flex;align-items:center;gap:5px;margin-top:5px;padding:4px 7px;border-radius:999px;font-size:8px;font-weight:900;border:1px solid rgba(255,255,255,.06)}
-    .lead-priority.high{color:#ffd78b;border-color:rgba(241,184,102,.24);background:rgba(241,184,102,.07)}
-    .lead-priority.normal{color:#a9cfd0;background:rgba(255,255,255,.025)}
-    .lead-priority.urgent{color:#ffaaa8;border-color:rgba(255,116,116,.22);background:rgba(255,116,116,.06)}
-    .listing-profile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
-    .listing-profile-item{padding:11px;border:1px solid rgba(255,255,255,.055);border-radius:11px;background:rgba(255,255,255,.018)}
-    .listing-profile-item span{display:block;color:var(--muted);font-size:8px;font-weight:850;text-transform:uppercase;letter-spacing:.55px}
-    .listing-profile-item strong{display:block;margin-top:4px;color:#edf7f7;font-size:11px}
-    @media(max-width:1050px){.owner-command-center{grid-template-columns:1fr 1fr}.owner-next-list{grid-template-columns:1fr 1fr}}
-    @media(max-width:600px){.owner-command-center{grid-template-columns:1fr 1fr;gap:8px}.owner-command-card{padding:13px}.owner-command-value{font-size:20px}.owner-next-list{grid-template-columns:1fr}.listing-profile-grid{grid-template-columns:1fr 1fr}}
+    /* PARTNER CRM — COMPACT LEAD-FIRST LAYOUT */
+    .content{padding-top:16px;}
+    .stats{margin-bottom:14px;}
+    .lead-workspace{margin-top:0;}
+    @media(max-width:600px){.content{padding-top:12px;}.stats{margin-bottom:10px;}}
 
     /* =========================================================
        STAGE 6N — FINAL PRODUCTION POLISH
@@ -2002,8 +1978,6 @@
             —
           </div>
 
-          <div class="listing-profile-grid" id="listingProfileGrid"></div>
-
         </div>
 
       </div>
@@ -2019,14 +1993,6 @@
 
     </section>
 
-
-    <section class="owner-command-center" aria-label="Venue Owner Command Center">
-      <div class="owner-command-card health"><div class="owner-command-label">Listing Health</div><div id="listingHealthValue" class="owner-command-value">—</div><div id="listingHealthNote" class="owner-command-note">Checking your venue listing...</div><div class="owner-health-track"><div id="listingHealthFill" class="owner-health-fill"></div></div><div id="listingHealthBreakdown" class="owner-health-breakdown"></div></div>
-      <div class="owner-command-card"><div class="owner-command-label">Needs Action</div><div id="ownerNeedsActionValue" class="owner-command-value">0</div><div id="ownerNeedsActionNote" class="owner-command-note">Leads waiting for a first response</div></div>
-      <div class="owner-command-card"><div class="owner-command-label">Response Rate</div><div id="ownerResponseRateValue" class="owner-command-value">0%</div><div class="owner-command-note">Based on assigned enquiries</div></div>
-      <div class="owner-command-card"><div class="owner-command-label">Booking Journey</div><div id="ownerBookingJourneyValue" class="owner-command-value">0</div><div id="ownerBookingJourneyNote" class="owner-command-note">Site visits + negotiations + bookings</div></div>
-    </section>
-    <section class="owner-next-actions" aria-label="Next actions"><div class="owner-next-head"><div><div class="owner-next-title">⚡ What You Need To Do Next</div><div class="owner-next-note">A simple action queue so important enquiries do not get missed.</div></div></div><div id="ownerNextActionsList" class="owner-next-list"><div class="owner-next-item"><strong>Loading...</strong><span>Preparing your action queue.</span></div></div></section>
 
     <!-- =====================================================
          STATS
@@ -2618,61 +2584,6 @@ function resetLeadWorkspace(clearCardFilter = true){
 }
 
 
-function listingHealthData(){
-  const v=venue||{};
-  const checks=[["Basic info",Boolean(v.venue_name||v.name)],["Location",Boolean(v.address||v.full_address||v.location||v.area||v.city)],["Contact",Boolean(v.phone||v.mobile||v.contact_number||v.owner_phone)],["Capacity",Boolean(v.capacity||v.max_capacity||v.seating_capacity)],["Venue type",Boolean(v.venue_type||v.type||v.category)],["Pricing",Boolean(v.price||v.starting_price||v.price_per_plate||v.veg_price||v.non_veg_price)],["Photos",Boolean(v.image_url||v.cover_image||v.images||v.photos||v.gallery)],["Map / location",Boolean(v.map_link||v.google_maps_url||v.google_map_link||v.latitude||v.longitude)],["Amenities",Boolean(v.amenities||v.facilities)]];
-  const complete=checks.filter(item=>item[1]).length;
-  return {percent:Math.round((complete/checks.length)*100),checks};
-}
-function renderListingHealth(){
-  const data=listingHealthData(), missing=data.checks.filter(x=>!x[1]).length;
-  const value=document.getElementById("listingHealthValue"), note=document.getElementById("listingHealthNote"), fill=document.getElementById("listingHealthFill"), breakdown=document.getElementById("listingHealthBreakdown");
-  if(value)value.textContent=data.percent+"%";
-  if(note)note.textContent=data.percent>=85?"Your venue profile is well prepared for customer discovery.":missing+" listing item"+(missing===1?"":"s")+" still need attention.";
-  if(fill)fill.style.width=data.percent+"%";
-  if(breakdown)breakdown.innerHTML=data.checks.map(([label,ok])=>'<span class="owner-health-pill">'+(ok?"✓":"○")+" "+escapeHtml(label)+"</span>").join("");
-}
-function renderVenueProfileSummary(){
-  const grid=document.getElementById("listingProfileGrid"); if(!grid)return;
-  const v=venue||{};
-  const items=[["Venue type",v.venue_type||v.type||v.category],["Capacity",v.capacity||v.max_capacity||v.seating_capacity],["Area",v.area||v.location],["City",v.city],["Rooms",v.rooms||v.room_count],["Parking",v.parking||v.parking_capacity],["Food",v.food_preference||v.cuisine||v.food_type],["Price",v.price||v.starting_price||v.price_per_plate]];
-  grid.innerHTML=items.map(([label,val])=>'<div class="listing-profile-item"><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(val||"Not added")+'</strong></div>').join("");
-}
-function leadPriority(assignment){
-  const e=assignment.customer_enquiry||{}, status=String(assignment.assignment_status||"assigned").toLowerCase();
-  if(["booked","converted"].includes(status))return ["normal","Booked"];
-  if(["site_visit","negotiation"].includes(status))return ["urgent","High Intent"];
-  const eventDate=e.event_date?new Date(e.event_date):null, days=eventDate&&!Number.isNaN(eventDate.getTime())?(eventDate.getTime()-Date.now())/86400000:999;
-  if(status==="assigned" && days<=30)return ["urgent","Needs Quick Response"];
-  if(status==="follow_up" || assignment.follow_up_at)return ["high","Follow-up Due"];
-  if(e.event_date && e.guests && e.budget_per_person)return ["high","Complete Requirement"];
-  return ["normal","Normal"];
-}
-function renderLeadPriority(assignment){
-  const [kind,label]=leadPriority(assignment);
-  return '<span class="lead-priority '+kind+'">● '+escapeHtml(label)+'</span>';
-}
-function renderOwnerCommandCenter(){
-  renderListingHealth(); renderVenueProfileSummary();
-  const needs=assignments.filter(a=>String(a.assignment_status||"assigned").toLowerCase()==="assigned").length;
-  const responded=assignments.filter(a=>a.first_contacted_at||["contacted","detailed_shared","follow_up","site_visit","negotiation","booked","converted"].includes(String(a.assignment_status||"").toLowerCase())).length;
-  const visits=assignments.filter(a=>String(a.assignment_status||"").toLowerCase()==="site_visit").length;
-  const negotiations=assignments.filter(a=>String(a.assignment_status||"").toLowerCase()==="negotiation").length;
-  const bookings=assignments.filter(a=>["booked","converted"].includes(String(a.assignment_status||"").toLowerCase())).length;
-  const responseRate=assignments.length?(responded/assignments.length)*100:0;
-  const needsEl=document.getElementById("ownerNeedsActionValue"); if(needsEl)needsEl.textContent=needs;
-  const needsNote=document.getElementById("ownerNeedsActionNote"); if(needsNote)needsNote.textContent=needs?needs+" new "+(needs===1?"enquiry":"enquiries")+" waiting for first action":"No new enquiries waiting";
-  const responseEl=document.getElementById("ownerResponseRateValue"); if(responseEl)responseEl.textContent=responseRate.toFixed(0)+"%";
-  const journeyEl=document.getElementById("ownerBookingJourneyValue"); if(journeyEl)journeyEl.textContent=visits+negotiations+bookings;
-  const journeyNote=document.getElementById("ownerBookingJourneyNote"); if(journeyNote)journeyNote.textContent=visits+" visit"+(visits===1?"":"s")+" · "+negotiations+" negotiation"+(negotiations===1?"":"s")+" · "+bookings+" booked";
-  const list=document.getElementById("ownerNextActionsList"); if(!list)return;
-  const terminal=["booked","lost","cancelled","converted","closed"];
-  const today=assignments.filter(a=>!terminal.includes(String(a.assignment_status||"").toLowerCase())&&followUpState(a.follow_up_at).key==="due").length;
-  const overdue=assignments.filter(a=>!terminal.includes(String(a.assignment_status||"").toLowerCase())&&followUpState(a.follow_up_at).key==="overdue").length;
-  const actions=[["📩",needs+" new "+(needs===1?"enquiry":"enquiries"),needs?"Contact new enquiries first":"No new enquiries waiting"],["⏰",(today+overdue)+" follow-up"+(today+overdue===1?"":"s"),today||overdue?today+" due today · "+overdue+" overdue":"Your follow-up queue is clear"],["📍",visits+" site visit"+(visits===1?"":"s"),visits?"Keep visit leads moving toward negotiation":"No site visits currently"]];
-  list.innerHTML=actions.map(([icon,title,note])=>'<div class="owner-next-item"><strong>'+icon+" "+title+'</strong><span>'+escapeHtml(note)+'</span></div>').join("");
-}
-
 /* ============================================================
    STATUS OPTIONS
 ============================================================ */
@@ -3042,8 +2953,6 @@ async function loadVenue(){
       "Partner venue";
 
   await loadPartnerPlanDetails();
-  renderListingHealth();
-  renderVenueProfileSummary();
 }
 
 
@@ -3179,7 +3088,6 @@ async function loadAssignments(){
 
     renderStats();
     renderAssignments();
-    renderOwnerCommandCenter();
     await loadPartnerAnalytics();
     return;
   }
@@ -3292,7 +3200,6 @@ async function loadAssignments(){
   renderStats();
 
   renderAssignments();
-  renderOwnerCommandCenter();
 
   await loadPartnerAnalytics();
 }
@@ -3598,7 +3505,6 @@ function renderAssignments(){
                     formatStatus(status)
                   )}
                 </span>
-                ${renderLeadPriority(assignment)}
 
                 <div class="secondary">
                   Assigned
