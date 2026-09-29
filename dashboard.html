@@ -4943,49 +4943,18 @@ async function openEnquiryDetails(
 
 
           <div class="detail-item full">
-
-            <div class="detail-label">
-              Requirements
-            </div>
-
-            <div class="detail-value">
-              ${value(
-                enquiry.requirements
-              )}
-            </div>
-
-                 <div class="detail-item">
-            <div class="detail-label">
-              Next Action
-            </div>
-            <div class="detail-value">
-              ${value(
-                nextActionForStatus(
-                  assignment.assignment_status || "assigned"
-                )
-              )}
-            </div>
+            <div class="detail-label">Requirements</div>
+            <div class="detail-value">${value(enquiry.requirements)}</div>
           </div>
 
-
-   </div>
-
+          <div class="detail-item">
+            <div class="detail-label">Next Action</div>
+            <div class="detail-value">${value(nextActionForStatus(assignment.assignment_status || "assigned"))}</div>
+          </div>
 
           <div class="detail-item">
-
-            <div class="detail-label">
-              Assignment Status
-            </div>
-
-            <div class="detail-value">
-              ${value(
-                formatStatus(
-                  assignment.assignment_status ||
-                  "assigned"
-                )
-              )}
-            </div>
-
+            <div class="detail-label">Assignment Status</div>
+            <div class="detail-value">${value(formatStatus(assignment.assignment_status || "assigned"))}</div>
           </div>
 
 
