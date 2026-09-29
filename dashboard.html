@@ -1692,6 +1692,25 @@
     }
 
     /* =========================================================
+       PARTNER COMMENTS / NOTES
+    ========================================================= */
+    .partner-comments-box{
+      margin-top:18px;padding:16px;border:1px solid rgba(22,199,183,.14);
+      border-radius:14px;background:linear-gradient(135deg,rgba(22,199,183,.045),rgba(255,255,255,.012));
+    }
+    .partner-comments-title{font-size:12px;font-weight:900;color:#eef8f8}
+    .partner-comments-note{margin-top:4px;color:var(--muted);font-size:9px;line-height:1.45}
+    .partner-comments-input{
+      width:100%;min-height:92px;margin-top:12px;padding:10px 11px;border:1px solid var(--line);
+      border-radius:10px;outline:none;background:#08191c;color:#eaf3f4;font:inherit;font-size:11px;line-height:1.5;resize:vertical
+    }
+    .partner-comments-input:focus{border-color:rgba(22,199,183,.58);box-shadow:0 0 0 2px rgba(22,199,183,.055)}
+    .partner-comments-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:9px}
+    .partner-comments-save{min-height:36px;padding:8px 12px;border:1px solid rgba(22,199,183,.28);border-radius:10px;background:rgba(22,199,183,.09);color:var(--teal);cursor:pointer;font-size:10px;font-weight:850}
+    .partner-comments-save:disabled{opacity:.55;cursor:not-allowed}
+    @media(max-width:600px){.partner-comments-actions{display:block}.partner-comments-save{width:100%}}
+
+    /* =========================================================
        RESPONSIVE
     ========================================================= */
 
@@ -2076,29 +2095,28 @@
 <link rel="stylesheet" href="crm-branding.css?v=20260923-logo-tight-1">
 <style id="partner-final-layout-status-20260929">
 /* Final layout: venue -> stats -> tabs -> enquiries */
-/* Final premium light-green CRM surface */
-html,body{background:linear-gradient(135deg,#dff7ed 0%,#eefbf5 48%,#d7f1e5 100%)!important;color:#173b34!important}
+/* Reverted latest light-green surface change — restore premium dark CRM */
+html,body{
+  background:radial-gradient(circle at top right,#63aeb0 0,var(--bg) 42%,#10282c 100%) !important;
+  color:var(--text) !important;
+}
 .content{background:transparent!important}
-.venue-card{background:linear-gradient(135deg,#f4fffa,#dff7ed)!important;border-color:#a8d9c4!important;box-shadow:0 8px 24px rgba(30,100,75,.08)!important}
-.stat-card{background:#f7fffb!important;border-color:#b5dfcd!important;box-shadow:0 6px 18px rgba(30,100,75,.06)!important}
-.partner-tabs{background:#e5f6ee!important;border-color:#abd8c5!important}
-.partner-tab{color:#42675d!important}.partner-tab.active{background:#d1f1e2!important;border-color:#8ecdb0!important;color:#174e3e!important}
-.section{background:#f8fffb!important;border-color:#b2dcc9!important;box-shadow:0 8px 24px rgba(30,100,75,.07)!important}
-.section-head{background:#f4fcf8!important;border-bottom-color:#c4e4d5!important}
-.lead-workspace{background:#edf9f3!important;border-color:#b9dfce!important}
-.workspace-input,.workspace-select{background:#ffffff!important;color:#173b34!important;border-color:#afd8c5!important}
-.workspace-input::placeholder{color:#78968c!important}
-th{background:#e4f4ec!important;color:#476c60!important;border-bottom-color:#b9ddcd!important}
-td{border-bottom-color:#d9eee4!important;color:#23483d!important}
-.customer-name{color:#173b34!important}.secondary{color:#648177!important}
-.status-select.workspace-select{background:#f8fffb!important;color:#173b34!important;border-color:#9fceb9!important}
-.status-select.status-assigned,.status-select.status-viewed{background:#dbeaf8!important;color:#24598d!important;border-color:#a8cbe8!important}
-.status-select.status-no_pick{background:#fff3d5!important;color:#946b10!important;border-color:#e8cc83!important}
-.status-select.status-call_back{background:#eee9ff!important;color:#624da1!important;border-color:#c9bcf0!important}
-.status-select.status-contacted,.status-select.status-detailed_shared{background:#d9f6ef!important;color:#177866!important;border-color:#99d9c8!important}
-.status-select.status-follow_up,.status-select.status-site_visit,.status-select.status-negotiation{background:#fff0d9!important;color:#98621b!important;border-color:#e5c28c!important}
-.status-select.status-booked{background:#d9f7e8!important;color:#19734b!important;border-color:#99d6b6!important}
-.status-select.status-lost,.status-select.status-cancelled{background:#ffe1e1!important;color:#a33f3f!important;border-color:#e2aaaa!important}
+.venue-card{
+  background:linear-gradient(135deg,rgba(22,199,183,.09),rgba(16,39,43,.8)) !important;
+  border-color:rgba(22,199,183,.20)!important;
+  box-shadow:none!important;
+}
+.stat-card{background:rgba(24,53,58,.94)!important;border-color:var(--line)!important;box-shadow:none!important}
+.partner-tabs{background:rgba(7,20,23,.72)!important;border-color:var(--line)!important}
+.partner-tab{color:var(--muted)!important}.partner-tab.active{background:rgba(22,199,183,.10)!important;border-color:rgba(22,199,183,.22)!important;color:var(--text)!important}
+.section{background:rgba(24,53,58,.96)!important;border-color:var(--line)!important;box-shadow:none!important}
+.section-head{background:transparent!important;border-bottom-color:var(--line)!important}
+.lead-workspace{background:linear-gradient(135deg,rgba(48,105,110,.98),rgba(28,70,76,.98))!important;border-color:rgba(80,235,216,.45)!important}
+.workspace-input,.workspace-select{background:#35676c!important;color:#fff!important;border-color:#70a2a6!important}
+th{background:rgba(5,15,17,.35)!important;color:#8ea6a9!important;border-bottom-color:var(--line)!important}
+td{border-bottom-color:rgba(255,255,255,.045)!important;color:var(--text)!important}
+.customer-name{color:#f3f8f8!important}.secondary{color:var(--muted)!important}
+.status-select.workspace-select{background:#35676c!important;color:#fff!important;border-color:#70a2a6!important}
 
 .content{padding-top:8px!important;padding-bottom:22px!important}
 .welcome{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
@@ -4694,6 +4712,55 @@ async function savePartnerContactLog(assignmentId){
 
 
 /* ============================================================
+   PARTNER COMMENTS / NOTES
+============================================================ */
+async function savePartnerComment(assignmentId){
+  const assignment=findAssignment(assignmentId);
+  const input=document.getElementById("partnerCommentNote");
+  const button=document.getElementById("savePartnerCommentButton");
+  if(!assignment || !input) return;
+
+  const note=input.value.trim();
+  if(note.length>1000){showToast("Comment is too long.",true);return;}
+
+  if(button){button.disabled=true;button.textContent="Saving...";}
+  try{
+    const activityAt=new Date().toISOString();
+    const {data,error}=await supabaseClient
+      .from("venue_enquiry_assignments")
+      .update({partner_note:note || null,last_activity_at:activityAt})
+      .eq("id",assignmentId)
+      .eq("venue_id",partnerProfile.venue_id)
+      .select(PARTNER_ASSIGNMENT_FIELDS)
+      .single();
+    if(error) throw error;
+
+    assignments=assignments.map(item=>
+      String(item.id)===String(assignmentId)
+        ? {...item,...data,customer_enquiry:item.customer_enquiry}
+        : item
+    );
+
+    await logPartnerActivity({
+      assignmentId,
+      activityType:"general_note",
+      description:"Partner comment: " + (note || "cleared")
+    });
+
+    renderAssignments();
+    showToast("Partner comment saved.");
+    await openEnquiryDetails(assignmentId);
+  }catch(error){
+    console.error("Unable to save partner comment:",error);
+    showToast(error?.message || "Unable to save partner comment.",true);
+  }finally{
+    const currentButton=document.getElementById("savePartnerCommentButton");
+    if(currentButton){currentButton.disabled=false;currentButton.textContent="Save Comment";}
+  }
+}
+
+
+/* ============================================================
    OPEN ENQUIRY DETAILS
 ============================================================ */
 
@@ -5006,8 +5073,8 @@ async function openEnquiryDetails(
               <input id="partnerFollowUpAt" class="followup-input" type="datetime-local" value="${escapeHtml(formatForDateTimeLocal(assignment.follow_up_at))}">
             </div>
             <div class="followup-field">
-              <label for="partnerFollowUpNote">Partner note</label>
-              <textarea id="partnerFollowUpNote" class="followup-textarea" maxlength="1000" placeholder="Example: Customer asked to call after 6 PM regarding package options.">${escapeHtml(assignment.partner_note || "")}</textarea>
+              <label for="partnerFollowUpNote">Follow-up note</label>
+              <textarea id="partnerFollowUpNote" class="followup-textarea" maxlength="1000" placeholder="Optional follow-up note. This is also stored in the Partner Comments / Notes field.">${escapeHtml(assignment.partner_note || "")}</textarea>
             </div>
             <div class="followup-actions">
               ${assignment.follow_up_at ? '<button id="clearFollowUpButton" type="button" class="followup-clear">Clear Follow-up</button>' : ''}
@@ -5018,6 +5085,18 @@ async function openEnquiryDetails(
           <div class="followup-current">
             <strong>Current follow-up:</strong> ${assignment.follow_up_at ? escapeHtml(formatDateTime(assignment.follow_up_at)) : "Not scheduled"}
             ${assignment.partner_note ? `<br><strong>Note:</strong> ${escapeHtml(assignment.partner_note)}` : ""}
+          </div>
+        </div>
+
+
+        <div class="partner-comments-box">
+          <div class="partner-comments-title">📝 Partner Comments / Customer Requirements</div>
+          <div class="partner-comments-note">
+            Add only the information the venue team needs to remember. Customer enquiry details remain read-only here; these comments are stored as the partner note.
+          </div>
+          <textarea id="partnerCommentNote" class="partner-comments-input" maxlength="1000" placeholder="Example: Customer wants 2 rooms, prefers veg food, asked for a callback after 7 PM, or has a specific requirement.">\${escapeHtml(assignment.partner_note || "")}</textarea>
+          <div class="partner-comments-actions">
+            <button id="savePartnerCommentButton" class="partner-comments-save" type="button">Save Comment</button>
           </div>
         </div>
 
@@ -5110,6 +5189,11 @@ async function openEnquiryDetails(
   }
 
   bindQuickActionButtons(assignment.id);
+
+  const savePartnerCommentButton = document.getElementById("savePartnerCommentButton");
+  if(savePartnerCommentButton){
+    savePartnerCommentButton.addEventListener("click",()=>savePartnerComment(assignment.id));
+  }
 
   const saveContactLogButton = document.getElementById("saveContactLogButton");
   if(saveContactLogButton){
