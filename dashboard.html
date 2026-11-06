@@ -2209,6 +2209,12 @@ td{border-bottom-color:rgba(255,255,255,.045)!important;color:var(--text)!import
   }
 }
 </style>
+<style id="partner-availability-styles">
+.partner-availability-box{margin:16px 0;padding:16px;border:1px solid rgba(53,234,211,.25);border-radius:15px;background:linear-gradient(145deg,rgba(22,199,183,.07),rgba(8,25,28,.35))}
+.partner-availability-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}.partner-availability-title{font-size:13px;font-weight:900;color:#eafffb}.partner-availability-note{margin-top:5px;color:var(--muted);font-size:10px;line-height:1.5;max-width:620px}.partner-availability-state{flex:none;padding:6px 9px;border-radius:99px;background:rgba(255,255,255,.07);color:#bdebe2;font-size:9px;font-weight:900}
+.partner-availability-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.partner-availability-grid>div{min-width:0}.partner-availability-grid label{display:block;margin-bottom:5px;color:#a9c0c3;font-size:9px;font-weight:850}.partner-availability-grid input,.partner-availability-grid select,.partner-availability-grid textarea{width:100%;min-height:40px;padding:9px 10px;border:1px solid #52777b;border-radius:9px;background:#0c2428;color:#f7ffff;font:inherit;font-size:11px}.partner-availability-grid textarea{min-height:76px;resize:vertical}.partner-availability-grid input[readonly]{opacity:.75}.partner-availability-wide{grid-column:1/-1}.partner-availability-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}.partner-availability-actions button{min-height:40px;padding:0 14px;border:1px solid #1cc8b7;border-radius:9px;background:#087b68;color:#fff;font-size:10px;font-weight:900;cursor:pointer}.partner-availability-actions button:disabled{opacity:.55;cursor:wait}.partner-availability-actions span{color:var(--muted);font-size:9px;line-height:1.4}
+@media(max-width:760px){.partner-availability-box{margin:12px 0;padding:12px;border-radius:13px;background:#fff;border-color:#d4e7df;color:#173f36}.partner-availability-title{color:#075d4d;font-size:13px}.partner-availability-note{color:#71857f}.partner-availability-state{background:#edf7f3;color:#075d4d}.partner-availability-grid{grid-template-columns:1fr}.partner-availability-grid label{color:#526d64}.partner-availability-grid input,.partner-availability-grid select,.partner-availability-grid textarea{min-height:44px;background:#f8fbfa;border-color:#cfdfd8;color:#173f36;font-size:13px}.partner-availability-wide{grid-column:auto}.partner-availability-actions{display:grid;grid-template-columns:1fr}.partner-availability-actions button{min-height:46px;font-size:12px}.partner-availability-actions span{color:#71857f}}
+</style>
 </head>
 
 <body>
@@ -3557,6 +3563,7 @@ async function loadAssignments(){
     renderStats();
     renderAssignments();
     await loadPartnerAnalytics();
+    subscribePartnerAvailabilityUpdates();
     return;
   }
 
@@ -3670,6 +3677,7 @@ async function loadAssignments(){
   renderAssignments();
 
   await loadPartnerAnalytics();
+  subscribePartnerAvailabilityUpdates();
 }
 
 
@@ -4747,6 +4755,7 @@ async function savePartnerContactLog(assignmentId){
     await loadActivityHistory(
       assignment
     );
+    await loadPartnerAvailabilityResponse(assignment);
 
   }catch(error){
     console.error("Unable to save contact note:",error);
@@ -4819,6 +4828,7 @@ async function savePartnerComment(assignmentId){
 async function openEnquiryDetails(
   assignmentId
 ){
+  window.smvPartnerActiveAssignmentId=assignmentId;
 
   const assignment =
     findAssignment(
@@ -5110,6 +5120,21 @@ async function openEnquiryDetails(
         </div>
 
 
+        <div class="partner-availability-box" id="partnerAvailabilityBox">
+  <div class="partner-availability-head">
+    <div><div class="partner-availability-title">📅 Confirm Event-Date Availability</div>
+    <div class="partner-availability-note">Your response is shared with the Select My Venue team for matching this assigned enquiry. No customer message is sent automatically.</div></div>
+    <span class="partner-availability-state" id="partnerAvailabilityState">Loading…</span>
+  </div>
+  <div class="partner-availability-grid">
+    <div><label for="partnerAvailabilityDate">Customer event date</label><input id="partnerAvailabilityDate" type="date" readonly></div>
+    <div><label for="partnerAvailabilityStatus">Availability confirmation</label><select id="partnerAvailabilityStatus"><option value="">Choose response</option><option value="available">Available</option><option value="unavailable">Not available</option><option value="needs_info">Need more details</option></select></div>
+    <div><label for="partnerAvailabilityQuote">Indicative quote (₹, optional)</label><input id="partnerAvailabilityQuote" type="number" min="0" step="1" inputmode="numeric" placeholder="e.g. 250000"></div>
+    <div class="partner-availability-wide"><label for="partnerAvailabilityNote">Availability note (optional)</label><textarea id="partnerAvailabilityNote" maxlength="2000" placeholder="Mention slot timing, minimum guarantee, package conditions or details required…"></textarea></div>
+  </div>
+  <div class="partner-availability-actions"><button type="button" id="savePartnerAvailability">Save availability response</button><span id="partnerAvailabilityHelp">Please confirm against your venue calendar before selecting Available.</span></div>
+</div>
+
         <div class="partner-comments-box">
           <div class="partner-comments-title">📝 Partner Comments / Customer Requirements</div>
           <div class="partner-comments-note">
@@ -5380,6 +5405,116 @@ async function hasRecentActivity(
 
     return false;
   }
+}
+
+
+
+/* ============================================================
+   PARTNER EVENT-DATE AVAILABILITY CONFIRMATION
+   Responses are venue-scoped by database RLS. No customer contact
+   or automatic booking is triggered by saving a response.
+============================================================ */
+let partnerAvailabilityChannel = null;
+
+async function loadPartnerAvailabilityResponse(assignment){
+  const box=document.getElementById("partnerAvailabilityBox");
+  if(!box||!assignment||!partnerProfile?.venue_id)return;
+  const state=document.getElementById("partnerAvailabilityState");
+  const date=document.getElementById("partnerAvailabilityDate");
+  const status=document.getElementById("partnerAvailabilityStatus");
+  const quote=document.getElementById("partnerAvailabilityQuote");
+  const note=document.getElementById("partnerAvailabilityNote");
+  const save=document.getElementById("savePartnerAvailability");
+  const eventDate=assignment.customer_enquiry?.event_date||"";
+  if(date)date.value=String(eventDate).slice(0,10);
+  if(!eventDate){
+    if(state)state.textContent="Event date missing";
+    if(status)status.disabled=true;
+    if(save)save.disabled=true;
+    const help=document.getElementById("partnerAvailabilityHelp");
+    if(help)help.textContent="Please contact the Select My Venue team to confirm the customer's event date before responding.";
+    return;
+  }
+  if(state)state.textContent="Loading response…";
+  const {data,error}=await supabaseClient.from("venue_partner_availability_responses")
+    .select("id,availability_status,event_date,quoted_price,partner_note,confirmed_at")
+    .eq("assignment_id",assignment.id).eq("venue_id",partnerProfile.venue_id).maybeSingle();
+  if(error){
+    console.warn("Partner availability response unavailable:",error);
+    if(state)state.textContent=/does not exist|schema cache/i.test(error.message||"")?"Setup pending":"Unable to load";
+    const help=document.getElementById("partnerAvailabilityHelp");
+    if(help)help.textContent="Availability response needs the approved database migration. No response has been saved.";
+    if(save)save.disabled=true;
+    return;
+  }
+  if(status)status.disabled=false;
+  if(save)save.disabled=false;
+  if(data){
+    if(status)status.value=data.availability_status||"";
+    if(quote)quote.value=data.quoted_price??"";
+    if(note)note.value=data.partner_note||"";
+    if(state)state.textContent="Updated "+new Date(data.confirmed_at).toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"});
+  }else{
+    if(status)status.value="";
+    if(quote)quote.value="";
+    if(note)note.value="";
+    if(state)state.textContent="Not yet confirmed";
+  }
+  const help=document.getElementById("partnerAvailabilityHelp");
+  if(help)help.textContent="Confirm from your venue calendar. This is an indicative response, not a booking or customer notification.";
+}
+
+async function savePartnerAvailabilityResponse(){
+  const button=document.getElementById("savePartnerAvailability");
+  const assignmentId=window.smvPartnerActiveAssignmentId;
+  const assignment=findAssignment(assignmentId);
+  if(!assignment||!partnerProfile?.venue_id||!currentUser?.id){
+    showToast("Open an assigned enquiry before confirming availability.",true);return;
+  }
+  const eventDate=assignment.customer_enquiry?.event_date;
+  const availabilityStatus=document.getElementById("partnerAvailabilityStatus")?.value||"";
+  const quoteValue=document.getElementById("partnerAvailabilityQuote")?.value||"";
+  const partnerNote=document.getElementById("partnerAvailabilityNote")?.value?.trim()||"";
+  if(!eventDate){showToast("The customer's event date is missing. Please contact SMV support.",true);return;}
+  if(!["available","unavailable","needs_info"].includes(availabilityStatus)){
+    showToast("Please select an availability response.",true);return;
+  }
+  const quote=quoteValue===""?null:Number(quoteValue);
+  if(quote!==null&&(!Number.isFinite(quote)||quote<0)){
+    showToast("Enter a valid indicative quote.",true);return;
+  }
+  button.disabled=true;button.textContent="Saving response…";
+  try{
+    const payload={assignment_id:assignment.id,venue_id:partnerProfile.venue_id,user_id:currentUser.id,event_date:String(eventDate).slice(0,10),availability_status:availabilityStatus,quoted_price:quote,partner_note:partnerNote||null};
+    const {error}=await supabaseClient.from("venue_partner_availability_responses").upsert(payload,{onConflict:"assignment_id"});
+    if(error)throw error;
+    const activity=await logPartnerActivity({assignmentId:assignment.id,activityType:"availability_"+availabilityStatus,description:"Venue availability response saved for "+String(eventDate).slice(0,10)+"."+(quote!==null?" Indicative quote: ₹"+quote.toLocaleString("en-IN")+".":"")});
+    document.getElementById("partnerAvailabilityState").textContent="Saved · "+new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+    showToast(activity?.success?"Availability response shared with Select My Venue.":"Availability saved. Activity history may update shortly.");
+  }catch(error){
+    console.error("Partner availability save failed:",error);
+    showToast(error?.message||"Unable to save availability response.",true);
+  }finally{
+    button.disabled=false;button.textContent="Save availability response";
+  }
+}
+
+document.addEventListener("click",event=>{
+  if(event.target?.id==="savePartnerAvailability")savePartnerAvailabilityResponse();
+});
+
+function subscribePartnerAvailabilityUpdates(){
+  if(!partnerProfile?.venue_id||partnerAvailabilityChannel)return;
+  try{
+    partnerAvailabilityChannel=supabaseClient.channel("smv-partner-availability-"+partnerProfile.venue_id)
+      .on("postgres_changes",{event:"*",schema:"public",table:"venue_partner_availability_responses",filter:"venue_id=eq."+partnerProfile.venue_id},payload=>{
+        const activeId=window.smvPartnerActiveAssignmentId;
+        if(activeId&&String(payload.new?.assignment_id||payload.old?.assignment_id)===String(activeId)){
+          const assignment=findAssignment(activeId);
+          if(assignment)loadPartnerAvailabilityResponse(assignment);
+        }
+      }).subscribe();
+  }catch(error){console.warn("Partner availability live updates unavailable:",error);}
 }
 
 
