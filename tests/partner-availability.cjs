@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const html=fs.readFileSync('dashboard.html','utf8');
+assert(html.includes('id="partnerAvailabilityBox"'),'availability panel must exist in enquiry detail modal');
+assert(html.includes('id="partnerAvailabilityStatus"'),'partner must be able to confirm event-date status');
+assert(html.includes('id="partnerAvailabilityQuote"'),'optional indicative quote must be available');
+assert(html.includes('async function savePartnerAvailabilityResponse'),'save handler must exist');
+assert(html.includes('function subscribePartnerAvailabilityUpdates'),'realtime subscription must exist');
+assert(html.includes('venue_partner_availability_responses'),'partner writes must use dedicated response table');
+assert(html.includes('partnerProfile.venue_id'),'writes must be scoped to authenticated partner venue');
+assert(html.includes('currentUser.id'),'writes must use authenticated user identity');
+assert(html.includes('No customer message is sent automatically'),'availability response must not silently contact customer');
+assert(/@media\s*\(max-width:\s*760px\)/.test(html),'availability form must include mobile styles');
+const scripts=[...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(x=>x.trim());
+for(let i=0;i<scripts.length;i++)new vm.Script(scripts[i],{filename:'dashboard-inline-'+i+'.js'});
+console.log('PASS Partner CRM availability UI, security-boundary assertions and inline JavaScript syntax');
